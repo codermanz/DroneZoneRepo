@@ -1,4 +1,3 @@
-package com.mycompany.tinkergraph;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
@@ -11,10 +10,12 @@ import static org.apache.tinkerpop.gremlin.structure.T.*;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.javatuples.Tuple;
+
 /**
  *
  * @author zayd
  */
+
 public class NewMain {
 
     /**
@@ -60,6 +61,8 @@ public class NewMain {
         g.addE("solved with").from((Vertex) v.get(4)).to((Vertex) v.get(v.size()-2)).iterate();
         g.addE("solved with").from((Vertex) v.get(5)).to((Vertex) v.get(v.size()-1)).iterate();
         g.addE("solved with").from((Vertex) v.get(5)).to((Vertex) v.get(v.size()-2)).iterate();
+
+        System.out.println(graph);
         
 //        String[] s = {"Jon Pearce", "Grit Denker", "Rukman", "Zayd", "Pooja", "Saad", "Rahul", "Bianca", "Simon", "Lucia", "Philip", "software"};
 //        for(int i = 0; i < 11; i++)
