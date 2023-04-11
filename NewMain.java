@@ -31,10 +31,10 @@ public class NewMain {
         for(int i = 0; i < 4; i++){
             v.add(g.addV("drone").property(id, i+1).next());
         }
-        String[] actions = {"Drop Pack", "Search", "Prompt"};
-        v.add(g.addV("mission").property("name", "identify").property("actions", actions).next());
-        String[] actions2 = {"report", "identify", "scan"};
-        v.add(g.addV("mission").property("name", "scan").property("actions", actions2).next());
+//        String[] actions = {"Drop Pack", "Search"};
+        v.add(g.addV("action").property("name", "drop pack").property("mission", "identify").next());
+//        String[] actions2 = {"report", "identify", "scan"};
+        v.add(g.addV("action").property("name", "search").property("mission", "scan").next());
         
         v.add(g.addV("observation").property("user", new User(u.stress, u.attentiveness, u.x, u.y)).next());
         v.add(g.addV("observation").property("user", new User(u.stress, u.attentiveness, u.x, u.y)).next());
