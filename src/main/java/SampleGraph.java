@@ -7,7 +7,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 /**
  *
- * @author zayd & saad
+ * @author zayd & saad & philip
  */
 
 public class SampleGraph {
