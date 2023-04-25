@@ -1,5 +1,7 @@
 import java.util.ArrayList;
-import java.util.Date;
+
+import models.Operator;
+
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
@@ -9,20 +11,21 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
  *
  * @author zayd & saad
  */
-
 public class SampleGraph {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Operator u = new Operator(0,1);
         System.out.println('\n');
 
+        // Create Graph traversal object
         GraphTraversalSource g = traversal().
                 withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
         ArrayList<Vertex> v = new ArrayList<>();
 
+        // TODO: Implement everything below has a single transaction
         // Create agents
         for(int i = 0; i < 4; i++){
             v.add(g.addV("drone").property("id", i+1).next());
@@ -69,26 +72,32 @@ public class SampleGraph {
         g.addE("solved with").from( v.get(7)).to( v.get(v.size()-2)).iterate();
 
         System.out.println("Finished running the script");
+        g.close();
 
     }
-    
+
 }
 
-class Operator{
-    int stress;
-    int attentiveness;
-    int timestamp;
-
-    public Operator(int stress, int attentiveness) {
-        this.stress = stress;
-        this.attentiveness = attentiveness;
-        // To convert to a date object: date = new Date(((long)this.timestamp)*1000L);
-        this.timestamp = (int) (new Date().getTime()/1000);
-    }
-
-    @Override
-    public String toString() {
-        return ("S: " + this.stress + "--A: " + this.attentiveness + "--T: " + this.timestamp);
-    }
-    
-}
+/**
+ * {
+ *     "observations": [
+ *          "observation": {
+ *              "agent_id": "saturn",
+ *              "obv_type": "zone_reporting",
+ *              "report": {
+ *                  "weight": 10,
+ *                  "timestamp": "2023-04-25T03:31:04+0000"
+ *              }
+ *          },
+ *          "observation": {
+ *  *              "agent_id": "mercury",
+ *  *              "obv_type": "zone_reporting",
+ *                 "obv_description": "zone 2 clear",
+ *  *              "report": {
+ *  *                  "weight": 5,
+ *  *                  "timestamp": "2023-04-25T03:31:04+0000"
+ *  *              }
+ *  *          }
+ *     ]
+ * }
+ */

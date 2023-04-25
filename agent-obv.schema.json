@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Time Step",
+  "type": "object",
+  "properties": {
+    "observations": {
+      "type": "array",
+      "$items" : {"$ref":  "#/$defs/observation"}
+    }
+  },
+  "$defs": {
+    "observation": {
+      "type": "object",
+      "required": ["agent_id", "obv_type", "obv_description", "report"],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Agent identifier ID"
+        },
+        "obv_type": {
+          "type": "string",
+          "description": "Observation Type - must be consistent with observation type defined during set up"
+        },
+        "obv_description": {
+          "type": "string",
+          "description": "Description related to the observation"
+        },
+        "report": {
+          "type": "object",
+          "required": ["weight", "timestamp"],
+          "properties": {
+            "weight": {
+              "type": "integer",
+              "description": "Agent weighing of observation"
+            },
+            "timestamp": {
+              "type": "string",
+              "description": "Timestamp"
+            }
+          }
+        }
+      }
+    }
+  }
+}
