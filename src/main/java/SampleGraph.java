@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 import models.Operator;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Date;
+
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import utils.Mapping;
 
 
 /**
@@ -20,7 +18,7 @@ public class SampleGraph {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        Operator u = new Operator(0,1);
+        Operator u = Operator.getInstance();
         System.out.println('\n');
 
         // Create Graph traversal object

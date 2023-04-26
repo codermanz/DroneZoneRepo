@@ -1,4 +1,4 @@
-package models;
+package utils;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
@@ -36,11 +36,11 @@ public class Node implements Vertex {
         this.existsInGraph = false;
     }
 //
-//    public Node(Vertex v, Mapping m) {
-//
-//
-//
-//    }
+    public Node(Vertex v, utils.Mapping m) {
+
+
+
+    }
 
     /**
      * Write node to graph. If node already written to the graph at least once, update within graph, else, create a

@@ -3,16 +3,11 @@
  * Please ignore.
  */
 
-import models.Node;
-import models.Operator;
-import org.apache.tinkerpop.gremlin.driver.Cluster;
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import java.util.*;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
+
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import org.apache.tinkerpop.gremlin.structure.Transaction;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 //class Test {
 //    public static void main(String[] args) throws Exception {

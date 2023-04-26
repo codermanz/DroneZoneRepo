@@ -1,3 +1,5 @@
+package utils;
+
 import java.util.*;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -30,7 +32,7 @@ public class Mapping{
 
     /* Main methods */
     public void readConfig(String configPath){
-        /* reads config and sets Mapping attributes based on the config content */
+        /* reads config and sets utils.Mapping attributes based on the config content */
 
         Config config = ConfigFactory.parseFile(new File(configPath));
         ConfigObject configObject = config.root();
@@ -127,7 +129,7 @@ public class Mapping{
     }
     @Override
     public String toString() {
-        return "Mapping{" +
+        return "utils.Mapping{" +
                 "mapping=" + mapping +
                 ", vertex_labels=" + vertexLabels +
                 ", edge_label='" + edgeLabel + '\'' +
