@@ -1,11 +1,14 @@
 import java.util.ArrayList;
-
 import models.Operator;
-
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Date;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+
 
 /**
  *
@@ -25,9 +28,12 @@ public class SampleGraph {
                 withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
         ArrayList<Vertex> v = new ArrayList<>();
 
+        Mapping missionActionMapping = new Mapping();
+        g = missionActionMapping.createGraph(g);
+
         // TODO: Implement everything below has a single transaction
         // Create agents
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 4; i++) {
             v.add(g.addV("drone").property("id", i+1).next());
         }
         // Define actions and their corresponding missions
@@ -73,7 +79,6 @@ public class SampleGraph {
 
         System.out.println("Finished running the script");
         g.close();
-
     }
 
 }

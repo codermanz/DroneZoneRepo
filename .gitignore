@@ -12,3 +12,4 @@ buildNumber.properties
 .idea
 .DS_Store
 janusgraph-0.6.3/
+output/
