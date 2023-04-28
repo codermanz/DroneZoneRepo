@@ -20,14 +20,15 @@ public class SampleGraph {
      */
 
     public static void main(String[] args) {
+        System.out.println('\n');
         ArrayList<Vertex> v = new ArrayList<>();
 
         GraphTraversalSource g = traversal().
                 withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
 
-        // create mission - action graph
-        Mapping missionActionMapping = new Mapping();
-        g = missionActionMapping.createGraph(g);
+        // add mission-action mapping
+        // Mapping missionActionMapping = new Mapping();
+        // g = missionActionMapping.createGraph(g);
 
         // Create agents
         for(int i = 0; i < 4; i++){

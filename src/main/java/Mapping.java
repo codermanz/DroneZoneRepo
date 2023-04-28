@@ -1,3 +1,4 @@
+import org.apache.tinkerpop.gremlin.driver.ResultSet;
 import java.util.*;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -62,11 +63,20 @@ public class Mapping{
 
             HashMap<String, ArrayList<Object>> innerMap = this.mapping.get(key);
             for (String innerKey : innerMap.keySet()) {
-                // create child nodes
-                Vertex childVertex = graph.addV(childVertexName).property("name", innerKey).next();
+
+                // create child nodes if they don't already exist!
+                Vertex childVertex;
+
+                if (graph.V().has("name", innerKey).valueMap().toList().size() > 0){
+                    childVertex = graph.V().has("name", innerKey).toList().get(0);
+                }
+                else{
+                    childVertex = graph.addV(childVertexName).property("name", innerKey).next();
+                }
 
                 // create edge between parent and child
                 GraphTraversal<Vertex, Edge> edge = graph.V(parentVertex).addE(this.edgeLabel).to(childVertex);
+
                 // add properties to edge
                 ArrayList<Object> propertyNames = this.edgeProperties;
                 ArrayList<Object> propertyValues = innerMap.get(innerKey);
