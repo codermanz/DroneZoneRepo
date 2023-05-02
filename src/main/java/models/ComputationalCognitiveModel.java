@@ -1,8 +1,15 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import utils.Mapping;
 
 import javax.json.JsonObject;
+import javax.json.JsonValue;
+import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
+import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 public class ComputationalCognitiveModel {
 
@@ -16,14 +23,41 @@ public class ComputationalCognitiveModel {
      * Constructor of Cognitive Model. Private to ensure Singletonness
      * Constructor will instantiate graph model and go through set up for defining
      */
-    private ComputationalCognitiveModel() {
+    private ComputationalCognitiveModel(JsonObject jsonObj) {
         // TODO: Define obv space
 
-        // TODO: Define action space
 
         // TODO: Define mapping between: action -> mission, action -> observations, observations -> UI Components
-        mapping = new Mapping();
+        GraphTraversalSource g = traversal().
+                withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
+        ArrayList<Vertex> v = new ArrayList<>();
 
+        // Create agents
+        for(int i = 0; i < 4; i++){
+            v.add(g.addV("drone").property("id", i+1).next());
+        }
+        
+        v.add(g.addV("action").property("name", "drop pack").
+                property("mission", "identify").next());
+        v.add(g.addV("action").property("name", "search").
+                property("mission", "scan").next());
+        
+        Iterator<String> it = jsonObj.getJsonObject("$defs").keySet().iterator();
+        while(it.hasNext()){
+            String i = it.next();
+            //create obv nodes and map thier edges
+            v.add(g.addV("observation").property("name", i).next());
+            String type = jsonObj.getJsonObject(i).getString("type");
+            switch(type){
+                case "target":
+                    g.addE("solved with").from(v.get(v.size()-1)).to(v.get(4)).iterate();
+                    break;
+                case "movement":
+                    g.addE("solved with").from(v.get(v.size()-1)).to(v.get(5)).iterate();
+                    break;
+            }
+        }
+        
         // TODO: Create Operator object
         operatorModel = Operator.getInstance();
 
@@ -35,9 +69,9 @@ public class ComputationalCognitiveModel {
      * @return
      */
     public static synchronized ComputationalCognitiveModel getInstance() {
-
+        JsonObject json = null;
         if (INSTANCE == null)
-            INSTANCE = new ComputationalCognitiveModel();
+            INSTANCE = new ComputationalCognitiveModel(json);
 
         return INSTANCE;
     }
