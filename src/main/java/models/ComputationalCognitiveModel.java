@@ -1,10 +1,15 @@
 package models;
 
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.Transaction;
 import utils.Mapping;
+import utils.jsonObjectModels.Observation;
 import utils.jsonObjectModels.TimeStep;
 
 import javax.json.JsonObject;
@@ -22,7 +27,7 @@ public class ComputationalCognitiveModel {
     private static ComputationalCognitiveModel INSTANCE = null;
     private static Mapping mapping = null;
     private static Operator operatorModel = null;
-    GraphTraversalSource g;
+    private static GraphTraversalSource g;
 
 
     /**
@@ -33,8 +38,9 @@ public class ComputationalCognitiveModel {
         // TODO: Define obv space
 
 
-        // TODO: Define mapping between: action -> mission, action -> observations, observations -> UI Components
+        // Define mapping between: action -> mission, action -> observations, observations -> UI Components
         Mapping map = new Mapping();
+
 //        ArrayList<Vertex> v = new ArrayList<>();
 
         // Create agents
@@ -63,12 +69,18 @@ public class ComputationalCognitiveModel {
 //            }
 //        }
         
-        // TODO: Create Operator object
+        // Create Operator object
         operatorModel = Operator.getInstance();
 
-        // TODO: Create and connect to janus graph instance
+        // Create and connect to janus graph instance
         this.g = traversal().
                     withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        g.close();
+        super.finalize();
     }
 
     /**
@@ -109,13 +121,44 @@ public class ComputationalCognitiveModel {
      * @param timeStep - new observations from DOMS in the form of timeStep Object
      */
     public static void updateModel(TimeStep timeStep) {
-        System.out.println(timeStep);
+//        System.out.println(timeStep);
+        // Read from model as a transaction
+        Transaction tx = g.tx();
+        GraphTraversalSource gtx = tx.begin();
 
-        // TODO: unpack json object and write it to the graph as a transaction
-            // create observation nodes
-                // Should automatically create a weighed relation from observation to action
-            // create agent nodes if necessary
-            // create edges between agent and observation based on data in json object
+        try {
+            // Write all observations to the graph
+            for (Observation obv : timeStep.getObservations()) {
+                // Create agents
+                GraphTraversal<Vertex, Vertex> agent = g.V().hasLabel("agent")
+                        .has("agent", "name", obv.getAgent_id());
+                Vertex agentVert;
+                // Create agent node if not already exist
+                if (!agent.hasNext()) {
+                    agent = g.addV("agent").property("name", obv.getAgent_id());
+                }
+                agentVert = agent.next();
+
+                // Create observation vertex
+                GraphTraversal<Vertex, Vertex> observation = g.addV("observation").
+                        property("obv_type", obv.getObv_type());
+                Vertex obvVert;
+                obv.getAttributes().forEach(x -> observation.property(x.getAttribute_Name(), x.getAttribute_Value()));
+                obvVert = observation.next();
+                // TODO: Should auto create weighed relation between observation to actions/UI components
+
+                // Create edge between agent and observation
+                g.addE("reports").from(agentVert).to(obvVert).property("weight", obv.getEdge_weight()).
+                        property("timestamp", obv.getEdge_timestamp()).iterate();
+
+            }
+            tx.commit();
+            gtx.close();
+
+        }  catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        }
 
         System.out.println("-->Update the model - invoke this function when ");
         renderFrontEnd();
@@ -135,4 +178,23 @@ public class ComputationalCognitiveModel {
             "'UI component' picking algorithm here");
     }
 
+    public static Mapping getMapping() {
+        return mapping;
+    }
+
+    public static void setMapping(Mapping mapping) {
+        ComputationalCognitiveModel.mapping = mapping;
+    }
+
+    public static Operator getOperatorModel() {
+        return operatorModel;
+    }
+
+    public static GraphTraversalSource getG() {
+        return g;
+    }
+
+    public static void setG(GraphTraversalSource g) {
+        ComputationalCognitiveModel.g = g;
+    }
 }
