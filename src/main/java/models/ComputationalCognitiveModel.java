@@ -1,8 +1,13 @@
 package models;
 
+import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import utils.Mapping;
+import utils.jsonObjectModels.TimeStep;
 
 import javax.json.JsonObject;
+
+import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 
 public class ComputationalCognitiveModel {
 
@@ -10,6 +15,7 @@ public class ComputationalCognitiveModel {
     private static ComputationalCognitiveModel INSTANCE = null;
     private static Mapping mapping = null;
     private static Operator operatorModel = null;
+    GraphTraversalSource g;
 
 
     /**
@@ -28,6 +34,8 @@ public class ComputationalCognitiveModel {
         operatorModel = Operator.getInstance();
 
         // TODO: Create and connect to janus graph instance
+        this.g = traversal().
+                    withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
     }
 
     /**
@@ -50,8 +58,8 @@ public class ComputationalCognitiveModel {
      *
      *  This function specifically should be called when needing to update the model due to operator model changing
      */
-    protected static void updateModel() {
-        System.out.println("Update the model - invoke this function when model needs to be updated due to " +
+    public static void updateModel() {
+        System.out.println("-->Update the model - invoke this function when model needs to be updated due to " +
                 "change in operator model");
         renderFrontEnd();
     }
@@ -65,11 +73,10 @@ public class ComputationalCognitiveModel {
      *  This function specifically should be called when needing to update the model due to new observations from
      *  DOMS.
      *
-     * @param jsonObj - new observations from DOMS in the form of json data
+     * @param timeStep - new observations from DOMS in the form of timeStep Object
      */
-    protected static void updateModel(JsonObject jsonObj) {
-        System.out.println("Update the model - invoke this function when ");
-        renderFrontEnd();
+    public static void updateModel(TimeStep timeStep) {
+        System.out.println(timeStep);
 
         // TODO: unpack json object and write it to the graph as a transaction
             // create observation nodes
@@ -77,6 +84,8 @@ public class ComputationalCognitiveModel {
             // create agent nodes if necessary
             // create edges between agent and observation based on data in json object
 
+        System.out.println("-->Update the model - invoke this function when ");
+        renderFrontEnd();
     }
 
     /**
@@ -89,7 +98,7 @@ public class ComputationalCognitiveModel {
      *          there should be no reason to rerender
      */
     private static void renderFrontEnd() {
-        System.out.println("Render out front end based on model - define " +
+        System.out.println("-->Render out front end based on model - define " +
             "'UI component' picking algorithm here");
     }
 

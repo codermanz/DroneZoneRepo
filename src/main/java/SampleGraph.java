@@ -80,27 +80,3 @@ public class SampleGraph {
     }
 
 }
-
-/**
- * {
- *     "observations": [
- *          "observation": {
- *              "agent_id": "saturn",
- *              "obv_type": "zone_reporting",
- *              "report": {
- *                  "weight": 10,
- *                  "timestamp": "2023-04-25T03:31:04+0000"
- *              }
- *          },
- *          "observation": {
- *  *              "agent_id": "mercury",
- *  *              "obv_type": "zone_reporting",
- *                 "obv_description": "zone 2 clear",
- *  *              "report": {
- *  *                  "weight": 5,
- *  *                  "timestamp": "2023-04-25T03:31:04+0000"
- *  *              }
- *  *          }
- *     ]
- * }
- */
