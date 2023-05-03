@@ -24,7 +24,8 @@ public class ComputationalCognitiveModel {
 
     // Singleton Computation Cognitive Model Singleton Instance
     private static ComputationalCognitiveModel INSTANCE = null;
-    private static Mapping mapping = null;
+    private static Mapping missionActionMapping;
+    private static Mapping actionObservationMapping;
     private static Operator operatorModel = null;
     private static GraphTraversalSource g;
 
@@ -34,12 +35,19 @@ public class ComputationalCognitiveModel {
      * Constructor will instantiate graph model and go through set up for defining
      */
     private ComputationalCognitiveModel(JsonObject jsonObj) {
+        // Create and connect to janus graph instance
+        this.g = traversal().
+                withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
+
         // TODO: Define obv space
 
 
         // TODO: Define mapping between: action -> mission, action -> observations, observations -> UI Components
-        Mapping missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
-        Mapping actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
+        missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
+        // Set up Mission/Action Nodes --> update graph based on static mission action mapping, edgeOnly = false to
+        // create the whole graph instead of only edges
+        missionActionMapping.updateGraph(g, false);
+        actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
 
 //        ArrayList<Vertex> v = new ArrayList<>();
 
@@ -71,10 +79,6 @@ public class ComputationalCognitiveModel {
         
         // Create Operator object
         operatorModel = Operator.getInstance();
-
-        // Create and connect to janus graph instance
-        this.g = traversal().
-                    withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
     }
 
     @Override
@@ -130,17 +134,17 @@ public class ComputationalCognitiveModel {
             // Write all observations to the graph
             for (Observation obv : timeStep.getObservations()) {
                 // Create agents
-                GraphTraversal<Vertex, Vertex> agent = g.V().hasLabel("agent")
+                GraphTraversal<Vertex, Vertex> agent = gtx.V().hasLabel("agent")
                         .has("agent", "name", obv.getAgent_id());
                 Vertex agentVert;
                 // Create agent node if not already exist
                 if (!agent.hasNext()) {
-                    agent = g.addV("agent").property("name", obv.getAgent_id());
+                    agent = gtx.addV("agent").property("name", obv.getAgent_id());
                 }
                 agentVert = agent.next();
 
                 // Create observation vertex
-                GraphTraversal<Vertex, Vertex> observation = g.addV("observation").
+                GraphTraversal<Vertex, Vertex> observation = gtx.addV("observation").
                         property("obv_type", obv.getObv_type());
                 Vertex obvVert;
                 obv.getAttributes().forEach(x -> observation.property(x.getAttribute_Name(), x.getAttribute_Value()));
@@ -148,11 +152,12 @@ public class ComputationalCognitiveModel {
                 // TODO: Should auto create weighed relation between observation to actions/UI components
 
                 // Create edge between agent and observation
-                GraphTraversal<Edge, Edge> edge = g.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
+                GraphTraversal<Edge, Edge> edge = gtx.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
                 obv.getEdge().getAttributes().forEach(x -> edge.property(x.getAttribute_Name(), x.getAttribute_Value()));
                 edge.iterate();
 
             }
+            actionObservationMapping.updateGraph(gtx, true);
             tx.commit();
             gtx.close();
 
@@ -179,12 +184,20 @@ public class ComputationalCognitiveModel {
             "'UI component' picking algorithm here");
     }
 
-    public static Mapping getMapping() {
-        return mapping;
+    public static Mapping getMissionActionMapping() {
+        return missionActionMapping;
     }
 
-    public static void setMapping(Mapping mapping) {
-        ComputationalCognitiveModel.mapping = mapping;
+    public static void setMissionActionMapping(Mapping missionActionMapping) {
+        ComputationalCognitiveModel.missionActionMapping = missionActionMapping;
+    }
+
+    public static Mapping getActionObservationMapping() {
+        return actionObservationMapping;
+    }
+
+    public static void setActionObservationMapping(Mapping actionObservationMapping) {
+        ComputationalCognitiveModel.actionObservationMapping = actionObservationMapping;
     }
 
     public static Operator getOperatorModel() {
