@@ -18,16 +18,19 @@ public class SampleGraph {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        Operator u = Operator.getInstance();
         System.out.println('\n');
 
-        // Create Graph traversal object
+        Operator u = Operator.getInstance();
         GraphTraversalSource g = traversal().
                 withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
         ArrayList<Vertex> v = new ArrayList<>();
 
         Mapping missionActionMapping = new Mapping();
         g = missionActionMapping.createGraph(g);
+
+        // add mission-action mapping
+        // Mapping missionActionMapping = new Mapping();
+        // g = missionActionMapping.createGraph(g);
 
         // TODO: Implement everything below has a single transaction
         // Create agents

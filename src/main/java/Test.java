@@ -57,19 +57,11 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 class Test{
     public static void main(String[] args) throws Exception {
         GraphTraversalSource g = traversal().withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
-//        GraphTraversalSource g = traversal().withRemote(DriverRemoteConnection.using("conf/remote-graph.properties"));
 
-        List <Map<Object,Object>> vmaps = g.V().valueMap().toList();
 
-        System.out.println("\n\nThe following airports were found " + vmaps.size() + "\n");
-        for (Map <Object,Object> m : vmaps)
-        {
-            ArrayList code = (ArrayList) m.get("code");
-            ArrayList desc = (ArrayList) m.get("desc");
-            System.out.println(m);
-        }
-        System.out.println("Done, exiting");
-        g.close();
+        // add mapping
+        Mapping missionActionMapping = new Mapping();
+        g = missionActionMapping.createGraph(g);
 
     }
 }
