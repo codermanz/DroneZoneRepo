@@ -120,7 +120,7 @@ public class Mapping{
          * this may be not as flexible, but for our purposes will be way faster with querying.
          *
          * Args:
-         *   graph [GraphTraversalSource]:      the graph that the vertices and edges are created into
+         *   graph [GraphTraversalSource]:      the graph that the edges are created into
          */
 
         String parentVertexLabel = this.getVertexLabels().get(0);
