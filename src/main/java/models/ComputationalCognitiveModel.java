@@ -37,8 +37,9 @@ public class ComputationalCognitiveModel {
         // TODO: Define obv space
 
 
-        // Define mapping between: action -> mission, action -> observations, observations -> UI Components
-        Mapping map = new Mapping();
+        // TODO: Define mapping between: action -> mission, action -> observations, observations -> UI Components
+        Mapping missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
+        Mapping actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
 
 //        ArrayList<Vertex> v = new ArrayList<>();
 

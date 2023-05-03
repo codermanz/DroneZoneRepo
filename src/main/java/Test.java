@@ -8,6 +8,7 @@ import java.util.*;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+import utils.Mapping;
 
 //class Test {
 //    public static void main(String[] args) throws Exception {
@@ -61,7 +62,7 @@ class Test{
 
         // add mapping
         Mapping missionActionMapping = new Mapping();
-        g = missionActionMapping.createGraph(g);
+        g = missionActionMapping.createFullMapping(g);
 
     }
 }
