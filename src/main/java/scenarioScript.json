@@ -14,8 +14,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "1"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "1"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -28,8 +33,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "1"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label":  "weight", "value": "1"},
+                        {"label": "timestamp", "value": "1"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -42,8 +52,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "1"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "1"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -56,8 +71,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "1"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "1"}
+                    ]
+                }
             }
         ]
     },
@@ -80,8 +100,13 @@
                     {"label": "zone", "value": "1"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 40,
-                "edge_timestamp": "2"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "40"},
+                        {"label": "timestamp", "value": "2"}
+                    ]
+                }
             },
             {
                 "agent_id": "saturn",
@@ -94,8 +119,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "2"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "2"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -108,8 +138,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "2"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "2"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -122,8 +157,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "2"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "2"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -136,8 +176,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "2"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "2"}
+                    ]
+                }
             }
         ]
     },
@@ -158,8 +203,13 @@
                     {"label": "time_since_idle", "value": "true"},
                     {"label": "awaiting_observation", "value": "soldier_found"}
                 ],
-                "edge_weight": 2,
-                "edge_timestamp": "3"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "2"},
+                        {"label": "timestamp", "value": "3"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -171,8 +221,13 @@
                     {"label": "geo_agent", "value": "(x, y)"},
                     {"label": "agent_velocity", "value": "(x, y)"}
                 ],
-                "edge_weight": 6,
-                "edge_timestamp": "3"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "6"},
+                        {"label": "timestamp", "value": "3"}
+                    ]
+                }
             },
             {
                 "agent_id": "saturn",
@@ -185,8 +240,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "3"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "3"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -199,8 +259,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "3"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "3"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -213,8 +278,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "3"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "3"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -227,8 +297,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "3"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "3"}
+                    ]
+                }
             }
         ]
     },
@@ -252,8 +327,13 @@
                     {"label": "geo_agent", "value": "(x, y)"},
                     {"label": "agent_velocity", "value": "(x, y)"}
                 ],
-                "edge_weight": 3,
-                "edge_timestamp": "4"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "4"}
+                    ]
+                }
             },
             {
                 "agent_id": "saturn",
@@ -266,8 +346,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "4"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "4"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -280,8 +365,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "4"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "4"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -294,8 +384,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "4"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "4"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -308,8 +403,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "4"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "4"}
+                    ]
+                }
             }
         ]
     },
@@ -330,8 +430,13 @@
                     {"label": "geo_agent", "value": "(x, y)"},
                     {"label": "agent_new_target_geo", "value": "(x, y)"}
                 ],
-                "edge_weight": 30,
-                "edge_timestamp": "5"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -341,8 +446,13 @@
                     {"label": "geo_agent", "value": "(x, y)"},
                     {"label": "agent_new_target_geo", "value": "(x, y)"}
                 ],
-                "edge_weight": 10,
-                "edge_timestamp": "5"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "10"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
             },
             {
                 "agent_id": "saturn",
@@ -355,8 +465,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "5"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -369,8 +484,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "5"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -383,8 +503,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "5"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -397,8 +522,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "5"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
             }
         ]
     },
@@ -418,8 +548,13 @@
                     {"label": "geo_agent", "value": "(x, y)"},
                     {"label": "agent_new_target_geo", "value": "(x, y)"}
                 ],
-                "edge_weight": 10,
-                "edge_timestamp": "6"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "10"},
+                        {"label": "timestamp", "value": "6"}
+                    ]
+                }
             },
             {
                 "agent_id": "saturn",
@@ -432,8 +567,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "6"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "6"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -445,8 +585,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "scanned_complete_zone", "value": "false"}
                 ],
-                "edge_weight": 10,
-                "edge_timestamp": "6"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "10"},
+                        {"label": "timestamp", "value": "6"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -459,8 +604,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "6"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "6"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -473,8 +623,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "6"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "6"}
+                    ]
+                }
             }
         ]
     },
@@ -495,8 +650,13 @@
                     {"label": "zone", "value": "4"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 50,
-                "edge_timestamp": "7"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "50"},
+                        {"label": "timestamp", "value": "7"}
+                    ]
+                }
             },
             {
                 "agent_id": "neptune",
@@ -506,8 +666,13 @@
                     {"label": "geo_agent", "value": "(x, y)"},
                     {"label": "agent_new_target_geo", "value": "(x, y)"}
                 ],
-                "edge_weight": 7,
-                "edge_timestamp": "7"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "7"},
+                        {"label": "timestamp", "value": "7"}
+                    ]
+                }
             },
             {
                 "agent_id": "saturn",
@@ -520,8 +685,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "7"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "7"}
+                    ]
+                }
             },
             {
                 "agent_id": "pluto",
@@ -534,8 +704,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "7"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "7"}
+                    ]
+                }
             },
             {
                 "agent_id": "jupiter",
@@ -548,8 +723,13 @@
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_agent", "value": "(x, y)"}
                 ],
-                "edge_weight": 1,
-                "edge_timestamp": "7"
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "7"}
+                    ]
+                }
             }
         ]
     },

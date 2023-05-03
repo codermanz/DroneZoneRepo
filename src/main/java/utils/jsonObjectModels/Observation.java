@@ -9,28 +9,20 @@ public class Observation {
     private String agent_id;
     private String obv_type;
     private List<Attribute> attributes;
-    private int edge_weight;
-    private String edge_timestamp;
+
+    private Edge edge;
+
 
     public Observation() {
 
     }
 
-    public Observation(String agent_id, String obv_type, List<Attribute> attributes, int edge_weight, String edge_timestamp) {
+    public Observation(String agent_id, String obv_type, List<Attribute> attributes, Edge edge) {
         this.agent_id = agent_id;
         this.obv_type = obv_type;
         this.attributes = attributes;
-        this.edge_weight = edge_weight;
-        this.edge_timestamp = edge_timestamp;
+        this.edge = edge;
     }
-
-    public Observation(String agent_id, String obv_type, int edge_weight, String edge_timestamp) {
-        this.agent_id = agent_id;
-        this.obv_type = obv_type;
-        this.edge_weight = edge_weight;
-        this.edge_timestamp = edge_timestamp;
-    }
-
 
     public String getAgent_id() {
         return agent_id;
@@ -56,26 +48,17 @@ public class Observation {
         this.attributes = attributes;
     }
 
-    public int getEdge_weight() {
-        return edge_weight;
+    public Edge getEdge() {
+        return edge;
     }
 
-    public void setEdge_weight(int edge_weight) {
-        this.edge_weight = edge_weight;
-    }
-
-    public String getEdge_timestamp() {
-        return edge_timestamp;
-    }
-
-    public void setEdge_timestamp(String edge_timestamp) {
-        this.edge_timestamp = edge_timestamp;
+    public void setEdge(Edge edge) {
+        this.edge = edge;
     }
 
     @Override
     public String toString() {
         return ("\n\t\tAgent ID: " + this.agent_id + "\n\t\tObservation Type: " + this.obv_type +
-                "\n\t\tEdge weight: " + this.edge_weight + "\n\t\tEdge Timestamp: " + this.edge_timestamp +
-                "\n\t\tNode Attributes: " + this.attributes);
+                "\n\t\tEdge: " + this.edge + "\n\t\tNode Attributes: " + this.attributes);
     }
 }

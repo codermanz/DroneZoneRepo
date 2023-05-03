@@ -6,6 +6,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSo
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Transaction;
 import utils.Mapping;
@@ -13,12 +14,10 @@ import utils.jsonObjectModels.Observation;
 import utils.jsonObjectModels.TimeStep;
 
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 
 public class ComputationalCognitiveModel {
@@ -121,7 +120,7 @@ public class ComputationalCognitiveModel {
      * @param timeStep - new observations from DOMS in the form of timeStep Object
      */
     public static void updateModel(TimeStep timeStep) {
-//        System.out.println(timeStep);
+        System.out.println(timeStep);
         // Read from model as a transaction
         Transaction tx = g.tx();
         GraphTraversalSource gtx = tx.begin();
@@ -148,8 +147,9 @@ public class ComputationalCognitiveModel {
                 // TODO: Should auto create weighed relation between observation to actions/UI components
 
                 // Create edge between agent and observation
-                g.addE("reports").from(agentVert).to(obvVert).property("weight", obv.getEdge_weight()).
-                        property("timestamp", obv.getEdge_timestamp()).iterate();
+                GraphTraversal<Edge, Edge> edge = g.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
+                obv.getEdge().getAttributes().forEach(x -> edge.property(x.getAttribute_Name(), x.getAttribute_Value()));
+                edge.iterate();
 
             }
             tx.commit();

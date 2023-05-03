@@ -27,19 +27,9 @@
           "description": "Attributes for the given observation",
           "$items": {"$ref":  "#/$defs/attribute"}
         },
-        "report": {
+        "edge": {
           "type": "object",
-          "required": ["weight", "timestamp"],
-          "properties": {
-            "weight": {
-              "type": "integer",
-              "description": "Agent weighing of observation"
-            },
-            "timestamp": {
-              "type": "string",
-              "description": "Timestamp"
-            }
-          }
+          "$item": {"$ref":  "#/$defs/edge"}
         }
       }
     },
@@ -58,6 +48,19 @@
       "observations": {
         "type": "array",
         "$items" : {"$ref":  "#/$defs/observation"}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "edge_name": {
+        "type": "string",
+        "description": "name of edge (ex. reporting)",
+        "required": true
+      },
+      "attributes": {
+        "type": "array",
+        "description": "Attributes for this edge",
+        "$items": {"$ref":  "#/$defs/attribute"}
       }
     },
     "attribute": {
