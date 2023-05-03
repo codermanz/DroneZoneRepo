@@ -1,17 +1,37 @@
 import models.ComputationalCognitiveModel;
 import models.SimulatedDOMS;
+import utils.jsonObjectModels.TimeStep;
+
+import java.io.IOException;
+import java.util.Scanner;
 
 public class MainClass {
 
-    private static int iteration;
-    private ComputationalCognitiveModel ccm = ComputationalCognitiveModel.getInstance();
-    private SimulatedDOMS simulatedDOMS = SimulatedDOMS.getInstance();
+    public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) {
+        // Create models
+        ComputationalCognitiveModel ccm = ComputationalCognitiveModel.getInstance();
+        SimulatedDOMS simulatedDOMS = SimulatedDOMS.getInstance();
 
-        // TODO: For each time step, call simulatedDOM's nextTimeStep function, then pass the returned Json
-        // object to CCM's update model. Continue doing this until reportFilteredStateToCCM returns a null
+        // Other vars
+        Scanner scanner = new Scanner(System.in);
+        int iteration = 0;
+        String input = "";
+
+        // Continue reading script from simulated DOMS until it runs out or user says -1
+        while (input != "-1") {
+
+            TimeStep timeStep = simulatedDOMS.reportFilteredStateToCCM(iteration);
+            if (timeStep == null)
+                break;
+
+            ccm.updateModel(timeStep);
+
+            input = scanner.nextLine();
+            iteration++;
+        }
+
+        System.out.println("FINISHED SCRIPT - GOODBYE");
 
     }
-
 }

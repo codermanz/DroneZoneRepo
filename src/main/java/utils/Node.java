@@ -36,11 +36,11 @@ public class Node implements Vertex {
         this.existsInGraph = false;
     }
 //
-    public Node(Vertex v, utils.Mapping m) {
-
-
-
-    }
+//    public Node(Vertex v, utils.Mapping m) {
+//
+//
+//
+//    }
 
     /**
      * Write node to graph. If node already written to the graph at least once, update within graph, else, create a
