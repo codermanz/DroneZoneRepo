@@ -13,7 +13,7 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.javatuples.Tuple;
 /**
  *
- * @author zayd
+ * @author zayd, philip, saad
  */
 public class NewMain {
 
