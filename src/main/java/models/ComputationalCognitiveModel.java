@@ -22,7 +22,8 @@ public class ComputationalCognitiveModel {
         // TODO: Define action space
 
         // TODO: Define mapping between: action -> mission, action -> observations, observations -> UI Components
-        mapping = new Mapping();
+        Mapping missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
+        Mapping actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
 
         // TODO: Create Operator object
         operatorModel = Operator.getInstance();
