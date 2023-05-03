@@ -26,57 +26,50 @@ public class SampleGraph {
                 withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
         ArrayList<Vertex> v = new ArrayList<>();
 
-        Mapping missionActionMapping = new Mapping();
-        g = missionActionMapping.createGraph(g);
+        // load mapping configs
+        Mapping missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
+        Mapping actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
+
+        // update graph based on static mission action mapping, edgeOnly = false to create the whole graph instead of only edges
+        g = missionActionMapping.updateGraph(g, false);
 
         // TODO: Implement everything below has a single transaction
         // Create agents
         for(int i = 0; i < 4; i++) {
             v.add(g.addV("drone").property("id", i+1).next());
         }
-        // Define actions and their corresponding missions
-        v.add(g.addV("action").property("name", "drop pack").
-                property("mission", "identify").next());
-        v.add(g.addV("action").property("name", "search").
-                property("mission", "scan").next());
 
-        // Commented out and replaced operator object with string as we have problem with serialization if it's an object
-//        v.add(g.addV("observation").property("operator", new Operator(u.stress, u.attentiveness, u.x, u.y)).next());
-//        v.add(g.addV("observation").property("operator", new Operator(u.stress, u.attentiveness, u.x, u.y)).next());
 
         // Add a couple of observations with the operator state when the observation occurred
-        v.add(g.addV("observation").property("name", "Soldier found").
-                property("Operator Status", u.toString()).next());
-        v.add(g.addV("observation").property("name", "Zone clear").
-                property("Operator Status", u.toString()).next());
+        v.add(g.addV("observation").property("obv_type", "soldier_found").property("Operator Status", u.toString()).next());
+        v.add(g.addV("observation").property("obv_type", "zone_scanning").property("Operator Status", u.toString()).next());
 
         // Add edge from observation to agent that observed it
         g.addE("observed").from( v.get(0)).to( v.get(v.size()-1)).iterate();
         g.addE("observed").from( v.get(2)).to( v.get(v.size()-1)).iterate();
         g.addE("observed").from( v.get(3)).to( v.get(v.size()-2)).iterate();
 
-        // Add edge to the action nodes that observations are relevant to
-        g.addE("important for").from( v.get(v.size()-1)).to( v.get(v.size()-3)).iterate();
-        g.addE("important for").from( v.get(v.size()-2)).to( v.get(v.size()-4)).iterate();
+        // update graph to create edges between new observations and their mapped actions
+        g = actionObservationMapping.updateGraph(g, true);
 
-        // Add UI component nodes
-        v.add(g.addV("component").property("name", "Identify Human as Map").
-                property("type", "mode a").next());
-        v.add(g.addV("component").property("name", "Identify Human as voice Alert").
-                property("type", "mode b").next());
-        v.add(g.addV("component").property("name", "Report Green Zone as Map").
-                property("type", "mode a").next());
-        v.add(g.addV("component").property("name", "Report Green Zone as Vibration").
-                property("type", "mode b").next());
 
-        // Edge from observation to corresponding UI component
-        g.addE("solved with").from( v.get(6)).to( v.get(v.size()-3)).iterate();
-        g.addE("solved with").from( v.get(6)).to( v.get(v.size()-4)).iterate();
-        g.addE("solved with").from( v.get(7)).to( v.get(v.size()-1)).iterate();
-        g.addE("solved with").from( v.get(7)).to( v.get(v.size()-2)).iterate();
 
-        System.out.println("Finished running the script");
-        g.close();
+//        // Add UI component nodes
+//        v.add(g.addV("component").property("name", "Identify Human as Map").
+//                property("type", "mode a").next());
+//        v.add(g.addV("component").property("name", "Identify Human as voice Alert").
+//                property("type", "mode b").next());
+//        v.add(g.addV("component").property("name", "Report Green Zone as Map").
+//                property("type", "mode a").next());
+//        v.add(g.addV("component").property("name", "Report Green Zone as Vibration").
+//                property("type", "mode b").next());
+//
+//        // Edge from observation to corresponding UI component
+//        g.addE("solved with").from( v.get(6)).to( v.get(v.size()-3)).iterate();
+//        g.addE("solved with").from( v.get(6)).to( v.get(v.size()-4)).iterate();
+//        g.addE("solved with").from( v.get(7)).to( v.get(v.size()-1)).iterate();
+//        g.addE("solved with").from( v.get(7)).to( v.get(v.size()-2)).iterate();
+//        g.close();
     }
 
 }
