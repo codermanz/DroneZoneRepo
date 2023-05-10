@@ -13,7 +13,7 @@ import org.apache.tinkerpop.gremlin.structure.Transaction;
 import utils.Mapping;
 import utils.jsonObjectModels.Observation;
 import utils.jsonObjectModels.TimeStep;
-
+import utils.Setup;
 import javax.json.JsonObject;
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
@@ -27,6 +27,8 @@ public class ComputationalCognitiveModel {
     private static ComputationalCognitiveModel INSTANCE = null;
     private static Mapping missionActionMapping;
     private static Mapping actionObservationMapping;
+    private static Mapping observationUIMapping;
+    private static Mapping actionUIMapping;
     private static Operator operatorModel = null;
     private static GraphTraversalSource g;
 
@@ -42,13 +44,34 @@ public class ComputationalCognitiveModel {
 
         // TODO: Define obv space
 
+        // TODO: Get into the .json files and think about / edit the attributes so that they make sense
+        // create initial graph with mission action and component nodes from json-scripts
+        Setup componentNodeSetup = new Setup("./configs/componentScript.json", "ui-component");
+        Setup missionNodeSetup = new Setup("./configs/missionScript.json", "mission");
+        Setup actionNodeSetup = new Setup("./configs/actionScript.json", "action");
 
-        // TODO: Define mapping between: action -> mission, action -> observations, observations -> UI Components
+        componentNodeSetup.createNodes(g);
+        missionNodeSetup.createNodes(g);
+        actionNodeSetup.createNodes(g);
+
+
+        // TODO: Get into the .conf files and think about / edit the mappings so that the mappings itself, the weights, edge attributes etc. make sense
+        // define mappings between certain types of vertices
         missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
-        // Set up Mission/Action Nodes --> update graph based on static mission action mapping, edgeOnly = false to
-        // create the whole graph instead of only edges
-        missionActionMapping.updateGraph(g, false);
         actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
+        observationUIMapping = new Mapping("./configs/default-observation-ui-mapping.conf");
+        actionUIMapping = new Mapping("./configs/default-action-ui-mapping.conf");
+
+
+        /* Update graph based on the defined static mappings: (create edges)
+            - mission - action mapping
+            - action - ui component mapping
+        */
+        missionActionMapping.updateGraph(g, missionNodeSetup.getCreatedVertices());
+        actionUIMapping.updateGraph(g, actionNodeSetup.getCreatedVertices());
+
+
+
 
 //        ArrayList<Vertex> v = new ArrayList<>();
 
@@ -65,7 +88,7 @@ public class ComputationalCognitiveModel {
 //        Iterator<String> it = jsonObj.getJsonObject("$defs").keySet().iterator();
 //        while(it.hasNext()){
 //            String i = it.next();
-//            //create obv nodes and map thier edges
+//            //create obv nodes and map their edges
 //            v.add(g.addV("observation").property("name", i).next());
 //            String type = jsonObj.getJsonObject(i).getString("type");
 //            switch(type){
@@ -159,9 +182,9 @@ public class ComputationalCognitiveModel {
                 edge.iterate();
 
             }
-            // TODO: Pass vertices to update graph function ------------------
-            actionObservationMapping.updateGraph(gtx, true);
-            // TODO: Should auto create weighed relation between observation to UI components
+            actionObservationMapping.updateGraph(gtx, vertices);
+            observationUIMapping.updateGraph(gtx, vertices);
+
             tx.commit();
             gtx.close();
 
