@@ -5,6 +5,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -131,6 +132,7 @@ public class ComputationalCognitiveModel {
         GraphTraversalSource gtx = tx.begin();
 
         try {
+            List<Vertex> vertices = new ArrayList<>();
             // Write all observations to the graph
             for (Observation obv : timeStep.getObservations()) {
                 // Create agents
@@ -149,7 +151,7 @@ public class ComputationalCognitiveModel {
                 Vertex obvVert;
                 obv.getAttributes().forEach(x -> observation.property(x.getAttribute_Name(), x.getAttribute_Value()));
                 obvVert = observation.next();
-                // TODO: Should auto create weighed relation between observation to actions/UI components
+                vertices.add(obvVert);
 
                 // Create edge between agent and observation
                 GraphTraversal<Edge, Edge> edge = gtx.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
@@ -157,7 +159,9 @@ public class ComputationalCognitiveModel {
                 edge.iterate();
 
             }
+            // TODO: Pass vertices to update graph function ------------------
             actionObservationMapping.updateGraph(gtx, true);
+            // TODO: Should auto create weighed relation between observation to UI components
             tx.commit();
             gtx.close();
 

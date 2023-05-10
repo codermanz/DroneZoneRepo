@@ -13,5 +13,5 @@ buildNumber.properties
 .DS_Store
 janusgraph-0.6.3/
 output/
-.idea/
+.vscode/
 droneZoneRepo.iml
