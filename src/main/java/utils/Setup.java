@@ -16,6 +16,7 @@ import java.util.Iterator;
 import com.fasterxml.jackson.databind.JsonNode;
 
 
+// Setup Class that handles reading the .json files from /configs/ and adds the vertices based on the file into our graph
 public class Setup {
     String path;
     String label;
