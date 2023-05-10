@@ -33,7 +33,6 @@ public class Mapping{
         readConfig(config_path);
     }
 
-    /* Main methods */
     public void readConfig(String configPath){
         /* reads config and sets utils.Mapping attributes based on the config content */
 
@@ -60,107 +59,110 @@ public class Mapping{
         ConfigList myEdgeProps = config.getList("edgeProperties");
         setEdgeProperties(convertConfigListToArrayList(myEdgeProps));
     }
-    public GraphTraversalSource updateGraph(GraphTraversalSource graph, boolean edgeOnly) {
-        /* update graph based on the mapping attributes and new vertices in graph
-        *
-        * Args:
-        *   graph [GraphTraversalSource]:       the graph that the vertices and edges are created into
-        *   edgeOnly [boolean]:                 if yes, assumes that vertices already exist in graph and only creates edges between them. If no, creates the vertexes and edges.
-        */
 
-        if (edgeOnly){
-            graph = createEdges(graph);
-        }
-        else{
-            graph = createFullMapping(graph);
-        }
-        return graph;
-    }
-    public GraphTraversalSource createFullMapping(GraphTraversalSource graph) {
-        /* create the full graph (vertices and edges) from mapping the attributes.
-        * Useful if the vertices of the mapping are not inside the graph yet.
-        * e.g. creating the initial mission to action mapping.
-        * Args:
-        *   graph [GraphTraversalSource]:      the graph that the vertices and edges are created into
-        */
-
-        String parentVertexLabel = this.getVertexLabels().get(0);
-        String childVertexLabel = this.getVertexLabels().get(1);
-        String parentVertexMainProperty = this.getMappingProperties().get(0);
-        String childVertexMainProperty = this.getMappingProperties().get(1);
-
-        for (String key : this.mapping.keySet()) {
-            // create parent node
-            Vertex parentVertex = graph.addV(parentVertexLabel).property(parentVertexMainProperty, key).next();
-
-            HashMap<String, ArrayList<Object>> innerMap = this.mapping.get(key);
-            for (String innerKey : innerMap.keySet()) {
-
-                // create child nodes
-                Vertex childVertex = graph.addV(childVertexLabel).property(childVertexMainProperty, innerKey).next();
-
-                // create edge between parent and child
-                GraphTraversal<Vertex, Edge> edge = graph.V(parentVertex).addE(this.edgeLabel).to(childVertex);
-
-                // add properties to edge
-                ArrayList<Object> propertyNames = this.edgeProperties;
-                ArrayList<Object> propertyValues = innerMap.get(innerKey);
-                for (int i = 0; i < propertyNames.size(); i++) {
-                    edge.property((String) propertyNames.get(i), propertyValues.get(i));
-                }
-                edge.iterate();
-            }
-        }
-        return graph;
-    }
-    public GraphTraversalSource createEdges(GraphTraversalSource graph) {
-        /* create edges based on the mapping attributes.
+    /* Main update function */
+    public GraphTraversalSource updateGraph(GraphTraversalSource graph, List<Vertex> vertices) {
+        /* creates edges based on the .conf file.
          * assumes that the vertices that need to be connected are already existing in the graph without the edges between them.
-         *
-         * !! IMPORTANT NOTE !!
-         * this method searches for standalone children nodes in the graph.
-         * this means that observations need to be defined as children of actions in and ui components in the .conf files.
-         * this may be not as flexible, but for our purposes will be way faster with querying.
+         * edge direction is determined by the order of vertexLabels in the .conf file:
+         *      - vertexLabels[0] -> parentNodes
+         *      - vertexLabels[1] -> childNodes
          *
          * Args:
          *   graph [GraphTraversalSource]:      the graph that the edges are created into
+         *   vertices [List<Vertex>]:           vertices that edges are created with. Instead of querying the whole graph, we pass them after each timestep
          */
 
+        // get relevant mapping attributes
         String parentVertexLabel = this.getVertexLabels().get(0);
         String childVertexLabel = this.getVertexLabels().get(1);
         String parentVertexMainProperty = this.getMappingProperties().get(0);
         String childVertexMainProperty = this.getMappingProperties().get(1);
 
-        // get all childNodes with label this.vertexLabels.get(0) that don't have incoming edges yet.
-        List<Vertex> standAloneChildVertices = graph.V().hasLabel(childVertexLabel).has(childVertexMainProperty).not(__.inE(this.edgeLabel)).toList();
-        // iterate this.mapping
-        for (String key : this.mapping.keySet()) {
-            // find parent node in the graph
-            Vertex parentVertex = graph.V().hasLabel(parentVertexLabel).has(parentVertexMainProperty, key).next();
+        // find out if the passed vertices are child or parent nodes
+        String vertexLabel = graph.V().hasId(vertices.get(0).id()).label().next();
 
-            HashMap<String, ArrayList<Object>> innerMap = this.mapping.get(key);
+        // create mapping based on if passed vertices are parent or children nodes
+        if (vertexLabel.equals(parentVertexLabel)){
+            // passed vertices are parent nodes -> edges go out of them
 
-            for (String innerKey : innerMap.keySet()) {
-                for (Vertex childVertex : standAloneChildVertices) {
-                    ArrayList obv_type_values = (ArrayList) graph.V(childVertex).valueMap().next().get(childVertexMainProperty);
-                    if (innerKey.equals(obv_type_values.get(0))){
-                        // then create the edge between parent and child
-                        GraphTraversal<Vertex, Edge> edge = graph.V(parentVertex).addE(this.edgeLabel).to(childVertex);
+            // 0. get each parentVertex mapping property to find its mapped children in this.mapping
+            for (Vertex parent: vertices){
+                ArrayList parentMatchingKeyList = (ArrayList) graph.V(parent.id()).valueMap().next().get(parentVertexMainProperty);
+                String parentMatchingKey = (String) parentMatchingKeyList.get(0);
+                HashMap<String, ArrayList<Object>> childrenMap = this.mapping.get(parentMatchingKey);
+                /*  1. iterate over all children of the current parent in this.mapping
+                *   2. find each child in the graph by looking for nodes that match the following criteria:
+                *       - nodes that have label = childLabel
+                *       - nodes that have childMainProperty = childMainProperty from this.mapping
+                *       - (nodes that have no edges to the current parentVertex yet) --> not implemented yet but open for discussion
+                *       --> this could result in multiple nodes per child from the mapping structure!
+                *   3. iterate over all found child vertices and create edge to parent for each
+                */
+                for (String childKey : childrenMap.keySet()) {
+                    List<Vertex> childVertices = graph.V().hasLabel(childVertexLabel).has(childVertexMainProperty, childKey).toList();
+                    for (Vertex childVertex: childVertices){
+                        // create edge
+                        GraphTraversal<Vertex, Edge> edge = graph.V(parent).addE(this.edgeLabel).to(childVertex);
+
                         // add properties to the edge
                         ArrayList<Object> propertyNames = this.edgeProperties;
-                        ArrayList<Object> propertyValues = innerMap.get(innerKey);
+                        ArrayList<Object> propertyValues = childrenMap.get(childKey);
                         for (int i = 0; i < propertyNames.size(); i++) {
                             edge.property((String) propertyNames.get(i), propertyValues.get(i));
                         }
+
+                        // finalize changes
                         edge.iterate();
                     }
-                    else{
-                        continue;
+                }
+            }
+        }
+        else if (vertexLabel.equals(childVertexLabel)){
+            // passed vertices are child nodes -> edges go into them
+
+            /*  0. iterate over the passed children
+            *   1. iterate over this.mapping (also innerMap)
+            *   2. if current childrenMainProperty matches current this.mapping child property:
+            *       - get current parentMainProperty
+            *       - query graph for all nodes that match:
+            *           - label = parentVertexLabel
+            *           - has property parentVertexMainProperty = current parentVertexMainProperty from this.mapping
+            *           - (has no outgoing edge to current childVertex yet) -> currently not implemented, open for discussion)
+            *       - create edge between all found nodes and current child
+            */
+
+            for (Vertex child: vertices){
+                for (String parentKey : this.mapping.keySet()) {
+                    HashMap<String, ArrayList<Object>> childrenMap = this.mapping.get(parentKey);
+                    for (String childKey : childrenMap.keySet()) {
+                        ArrayList childMatchingKeyList = (ArrayList) graph.V(child.id()).valueMap().next().get(childVertexMainProperty);
+                        String childMatchingKey = (String) childMatchingKeyList.get(0);
+                        if (childKey.equals(childMatchingKey)){
+                            List<Vertex> parentVertices = graph.V().hasLabel(parentVertexLabel).has(parentVertexMainProperty, parentKey).toList();
+                            for (Vertex parent: parentVertices){
+                                // then create the edge between parent and child
+                                GraphTraversal<Vertex, Edge> edge = graph.V(parent).addE(this.edgeLabel).to(child);
+
+                                // add properties to the edge
+                                ArrayList<Object> propertyNames = this.edgeProperties;
+                                ArrayList<Object> propertyValues = childrenMap.get(childKey);
+                                for (int i = 0; i < propertyNames.size(); i++) {
+                                    edge.property((String) propertyNames.get(i), propertyValues.get(i));
+                                }
+                                edge.iterate();
+                            }
+                        }
                     }
                 }
-            }}
+            }
+        }
+        else {
+            System.out.println("Could not match passed vertices with mapping.vertexLabels.");
+        };
         return graph;
     }
+
 
     /* Config-Datatypes conversion methods */
     public HashMap convertConfigObjectToHashMap(ConfigObject configObject){
