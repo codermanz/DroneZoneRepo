@@ -1,79 +1,79 @@
 [{
-    "name": "zone",
-    "type": "geo area",
+    "name": "Zone",
+    "ui_informationType": "geo_area",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Drone Status",
-    "type": "percent stats",
+    "ui_informationType": "percent_stats",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Minimap",
-    "type": "coord",
+    "ui_informationType": "coord",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Stage Manager",
-    "type": "component data",
+    "ui_informationType": "component_data",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Button",
-    "type": "signal",
-    "signalType": "start action",
+    "ui_informationType": "signal",
+    "signalType": "start_action",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Button",
-    "type": "signal",
-    "signalType": "stop action",
+    "ui_informationType": "signal",
+    "signalType": "stop_action",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Button",
-    "type": "signal",
-    "signalType": "alter action",
+    "ui_informationType": "signal",
+    "signalType": "alter_action",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Logbook",
-    "type": "logs",
+    "ui_informationType": "logs",
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Drag Drones",
-    "type": "Drone profile",
+    "ui_informationType": "drone_profile",
     "datalist": true,
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Task Stepper",
-    "type": "Task",
+    "ui_informationType": "task",
     "datalist": true,
     "stress": "low",
-    "Usefulness": 100
-},
-{
-    "name": "Dashboard",
-    "type": "Misc",
-    "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
 },
 {
     "name": "Urgent Action",
-    "type": "Task",
+    "ui_informationType": "task",
     "datalist": false,
     "stress": "low",
-    "Usefulness": 100
+    "usefulness": 100
+},
+{
+    "name": "Dashboard",
+    "ui_informationType": "misc",
+    "stress": "low",
+    "usefulness": 100
 }
 ]
