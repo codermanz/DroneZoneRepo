@@ -163,7 +163,6 @@ public class Mapping{
         return graph;
     }
 
-
     /* Config-Datatypes conversion methods */
     public HashMap convertConfigObjectToHashMap(ConfigObject configObject){
         HashMap myHashMap = new HashMap<>();
