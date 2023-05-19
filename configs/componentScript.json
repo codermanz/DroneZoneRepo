@@ -18,7 +18,7 @@
 },
 {
     "name": "Stage Manager",
-    "type": "component data",
+    "type": "view data",
     "stress": "low",
     "Usefulness": 100
 },

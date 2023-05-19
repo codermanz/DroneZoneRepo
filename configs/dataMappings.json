@@ -1,0 +1,10 @@
+{
+    "geo area": ["Zone Report", "bounded location","bounded zone"],
+    "percent stats": ["%scan", "Fuel level", "Health level", "human probability"],
+    "coord": ["agent geolocation", "human geolocation", "enemy spotted", "target location"],
+    "signal": {
+        "quit":["quit button"]
+    },
+    "drone profile": ["agent damaged"],
+    "misc": ["agent idling"]
+}
