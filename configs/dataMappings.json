@@ -3,7 +3,7 @@
     "percent stats": ["%scan", "Fuel level", "Health level", "human probability"],
     "coord": ["agent geolocation", "human geolocation", "enemy spotted", "target location"],
     "signal": {
-        "quit":["quit button"]
+        "quit":["quit"]
     },
     "drone profile": ["agent damaged"],
     "misc": ["agent idling"]
