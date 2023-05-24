@@ -62,7 +62,7 @@ class Test{
 
         // add mapping
         Mapping missionActionMapping = new Mapping();
-        g = missionActionMapping.createFullMapping(g);
+        //g = missionActionMapping.createFullMapping(g);
 
     }
 }

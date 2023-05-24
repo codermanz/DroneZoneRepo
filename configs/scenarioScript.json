@@ -200,7 +200,7 @@
                 "obv_type": "agent_idle",
                 "attributes": [
                     {"label": "time_since_idle", "value": "1"},
-                    {"label": "time_since_idle", "value": "true"},
+                    {"label": "awaiting_response", "value": "true"},
                     {"label": "awaiting_observation", "value": "soldier_found"}
                 ],
                 "edge": {
@@ -493,6 +493,25 @@
                 }
             },
             {
+                "agent_id": "neptune",
+                "obv_type": "enemy_spotted",
+                "attributes": [
+                    {"label": "zone", "value": "2"},
+                    {"label":  "active_hostile", "value":  "true"},
+                    {"label":  "agent_detected", "value":  "true"},
+                    {"label":  "geo_red_zone", "value":  "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label":  "geo_hostile", "value":  "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label":  "geo_agent", "value":  "(x, y), (x, y), (x, y), (x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "25"},
+                        {"label": "timestamp", "value": "5"}
+                    ]
+                }
+            },
+            {
                 "agent_id": "pluto",
                 "obv_type": "zone_reporting",
                 "attributes": [
@@ -583,7 +602,8 @@
                     {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
                     {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
-                    {"label": "scanned_complete_zone", "value": "false"}
+                    {"label": "scanned_complete_zone", "value": "false"},
+                    {"label":  "fly-zone", "value":  "true"}
                 ],
                 "edge": {
                     "edge_name": "reports",
@@ -736,84 +756,936 @@
 
 
 
-
-
-
     {
         "iteration": 8,
-        "description": "",
+        "description": "Saturn identified a fly zone",
         "observations": [
-
+            {
+                "agent_id": "saturn",
+                "obv_type": "zone_scanned",
+                "attributes": [
+                    {"label": "zone", "value": "1"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "scanned_complete_zone", "value": "true"},
+                    {"label":  "fly-zone", "value":  "true"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "10"},
+                        {"label": "timestamp", "value": "8"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "jupiter",
+                "obv_type": "agent_idle",
+                "attributes": [
+                    {"label": "time_since_idle", "value": "1"},
+                    {"label": "awaiting_response", "value": "true"},
+                    {"label": "awaiting_observation", "value": "soldier_found"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "2"},
+                        {"label": "timestamp", "value": "8"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "70"},
+                    {"label": "zone", "value": "3"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "8"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "10"},
+                    {"label": "zone", "value": "5"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "8"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
+
+
     {
         "iteration": 9,
-        "description": "",
+        "description": "Operator decides based on information of Jupiter that we've found the wounded soldier. Saturn finished scanning one zone and auto moved on to another identified zone",
         "observations": [
-
+            {
+                "agent_id": "saturn",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "10"},
+                    {"label": "zone", "value": "6"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "9"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "jupiter",
+                "obv_type": "agent_idle",
+                "attributes": [
+                    {"label": "time_since_idle", "value": "2"},
+                    {"label": "awaiting_response", "value": "true"},
+                    {"label": "awaiting_observation", "value": "soldier_found"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "2"},
+                        {"label": "timestamp", "value": "9"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "80"},
+                    {"label": "zone", "value": "3"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "9"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "20"},
+                    {"label": "zone", "value": "5"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "9"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
+
+
     {
         "iteration": 10,
-        "description": "",
+        "description": "Operator tells Jupiter to drop medical and communication pack",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "agent_pack_state",
+                "attributes": [
+                    {"label": "dropped_status", "value": "success"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "15"},
+                        {"label": "timestamp", "value": "10"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "1"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "10"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "20"},
+                    {"label": "zone", "value": "6"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "10"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "90"},
+                    {"label": "zone", "value": "3"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "10"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "40"},
+                    {"label": "zone", "value": "5"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "10"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
+
+
+
     {
         "iteration": 11,
-        "description": "",
+        "description": "Operator creates a rescue path based on his knowledge of all that's been scanned so far",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "2"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "11"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_idle",
+                "attributes": [
+                    {"label": "time_since_idle", "value": "1"},
+                    {"label": "awaiting_response", "value": "false"},
+                    {"label": "awaiting_observation", "value": "find_new_path"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "11"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "agent_idle",
+                "attributes": [
+                    {"label": "time_since_idle", "value": "1"},
+                    {"label": "awaiting_response", "value": "false"},
+                    {"label": "awaiting_observation", "value": "find_new_path"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "11"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_idle",
+                "attributes": [
+                    {"label": "time_since_idle", "value": "1"},
+                    {"label": "awaiting_response", "value": "false"},
+                    {"label": "awaiting_observation", "value": "find_new_path"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "11"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
+
+
+
     {
         "iteration": 12,
-        "description": "",
+        "description": "All other drones follow a new mission which is to scan rescue path",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "3"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "12"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "12"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "12"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "12"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
+
+
+
     {
         "iteration": 13,
-        "description": "",
+        "description": "Operator instructs soldier on first aid - communication about rescue path",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "4"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "13"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "13"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "13"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "13"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
     {
         "iteration": 14,
-        "description": "",
+        "description": "Neptune identifies a no fly zone WITHIN PLANNED rescue path",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "5"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "14"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "14"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "enemy_spotted",
+                "attributes": [
+                    {"label": "zone", "value": "7"},
+                    {"label":  "active_hostile", "value":  "true"},
+                    {"label":  "agent_detected", "value":  "false"},
+                    {"label":  "geo_red_zone", "value":  "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label":  "geo_hostile", "value":  "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label":  "geo_agent", "value":  "(x, y), (x, y), (x, y), (x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "14"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "10"},
+                    {"label": "zone", "value": "7"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "14"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "5"},
+                        {"label": "timestamp", "value": "14"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
+
     {
         "iteration": 15,
-        "description": "",
+        "description": "Drone Operations Management System suggests new rescue path",
         "observations": [
-
+            {
+                "agent_id": "doms",
+                "obv_type": "doms_suggestion",
+                "attributes": [
+                    {"label": "new_zone", "value": "false"},
+                    {"label": "new_path", "value": "true"},
+                    {"label": "actionable", "value": "true"},
+                    {"label": "geo_new_path_suggestion", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "suggestion_meta", "value": "Rescue path suggestion"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "50"},
+                        {"label": "timestamp", "value": "15"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "6"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "15"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "20"},
+                    {"label": "zone", "value": "7"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "15"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "15"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "15"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
     {
         "iteration": 16,
-        "description": "",
+        "description": "Pluto identifies a no fly zone on its way towards the possible rescue path",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "7"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "16"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "enemy_spotted",
+                "attributes": [
+                    {"label": "zone", "value": "8"},
+                    {"label":  "active_hostile", "value":  "true"},
+                    {"label":  "agent_detected", "value":  "false"},
+                    {"label":  "geo_red_zone", "value":  "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label":  "geo_hostile", "value":  "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label":  "geo_agent", "value":  "(x, y), (x, y), (x, y), (x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "16"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "16"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "30"},
+                    {"label": "zone", "value": "7"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "16"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "zone_reporting",
+                "attributes": [
+                    {"label": "perc_zone_scanned", "value": "10"},
+                    {"label": "zone", "value": "9"},
+                    {"label": "geo_scanned_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_green_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_red_zone", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "1"},
+                        {"label": "timestamp", "value": "16"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
     {
         "iteration": 17,
-        "description": "",
+        "description": "Operator accepts new rescue path",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "8"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "17"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "17"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "17"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "17"}
+                    ]
+                }
+            }
         ]
     },
+
+
+
     {
         "iteration": 18,
-        "description": "",
+        "description": "Rescue helicopter follows path and rescues wounded soldier",
         "observations": [
-
+            {
+                "agent_id": "jupiter",
+                "obv_type": "monitor_soldier",
+                "attributes": [
+                    {"label": "soldier_geo", "value": "(x, y), (x, y), (x, y), (x, y)"},
+                    {"label": "dropped_pack", "value": "true"},
+                    {"label": "soldier_health", "value": "vitals: healthy, mobile: false, physical: broken leg"},
+                    {"label": "time_since_discovery", "value": "9"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "30"},
+                        {"label": "timestamp", "value": "18"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "saturn",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "18"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "pluto",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "18"}
+                    ]
+                }
+            },
+            {
+                "agent_id": "neptune",
+                "obv_type": "agent_moving",
+                "attributes": [
+                    {"label": "agent_relocating_velocity", "value": "(x, y)"},
+                    {"label": "geo_agent", "value": "(x, y)"},
+                    {"label": "agent_new_target_geo", "value": "(x, y)"}
+                ],
+                "edge": {
+                    "edge_name": "reports",
+                    "attributes": [
+                        {"label": "weight", "value": "3"},
+                        {"label": "timestamp", "value": "18"}
+                    ]
+                }
+            }
         ]
     },
     {

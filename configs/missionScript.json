@@ -1,0 +1,16 @@
+[{
+    "mission_id": "rescue_soldier",
+    "mission_type": "rescue",
+    "importance": 100
+},
+{
+    "mission_id": "scan_zone",
+    "mission_type": "info",
+    "importance": 80
+},
+{
+    "mission_id": "identify_soldier",
+    "mission_type": "rescue",
+    "importance": 90
+}
+]

@@ -30,7 +30,7 @@ public class SampleGraph {
         Mapping actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
 
         // update graph based on static mission action mapping, edgeOnly = false to create the whole graph instead of only edges
-        g = missionActionMapping.updateGraph(g, false);
+        // g = missionActionMapping.updateGraph(g);
 
         // add mission-action mapping
         // Mapping missionActionMapping = new Mapping();
@@ -53,7 +53,7 @@ public class SampleGraph {
         g.addE("observed").from( v.get(3)).to( v.get(v.size()-2)).iterate();
 
         // update graph to create edges between new observations and their mapped actions
-        g = actionObservationMapping.updateGraph(g, true);
+        // g = actionObservationMapping.updateGraph(g, g);
 
 
 
