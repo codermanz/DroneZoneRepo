@@ -12,6 +12,7 @@ public class MainClass {
         // Create models
         ComputationalCognitiveModel ccm = ComputationalCognitiveModel.getInstance();
         SimulatedDOMS simulatedDOMS = SimulatedDOMS.getInstance();
+        // TODO: Create another Simulated UI Component that streams in actions taken by user
 
         // Other vars
         Scanner scanner = new Scanner(System.in);
@@ -26,6 +27,7 @@ public class MainClass {
                 break;
 
             ccm.updateModel(timeStep);
+
 
             input = scanner.nextLine();
             iteration++;
