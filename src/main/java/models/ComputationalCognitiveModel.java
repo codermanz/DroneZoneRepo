@@ -19,6 +19,8 @@ import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import utils.jsonObjectModels.UserAction;
+
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 
 public class ComputationalCognitiveModel {
@@ -42,7 +44,7 @@ public class ComputationalCognitiveModel {
         this.g = traversal().
                 withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
 
-        // TODO: Define obv space
+        // TODO: Define obv and action space
 
         // TODO: Get into the .json files and think about / edit the attributes so that they make sense
         // create initial graph with mission action and component nodes from json-scripts
@@ -55,7 +57,8 @@ public class ComputationalCognitiveModel {
         actionNodeSetup.createNodes(g);
 
 
-        // TODO: Get into the .conf files and think about / edit the mappings so that the mappings itself, the weights, edge attributes etc. make sense
+        // TODO: Get into the .conf files and think about / edit the mappings so that the mappings itself, the weights,
+        //  edge attributes etc. make sense
         // define mappings between certain types of vertices
         missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
         actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
@@ -69,37 +72,6 @@ public class ComputationalCognitiveModel {
         */
         missionActionMapping.updateGraph(g, missionNodeSetup.getCreatedVertices());
         actionUIMapping.updateGraph(g, actionNodeSetup.getCreatedVertices());
-
-
-
-
-//        ArrayList<Vertex> v = new ArrayList<>();
-
-        // Create agents
-//        for(int i = 0; i < 4; i++){
-//            v.add(g.addV("drone").property("id", i+1).next());
-//        }
-//
-//        v.add(g.addV("action").property("name", "drop pack").
-//                property("mission", "identify").next());
-//        v.add(g.addV("action").property("name", "search").
-//                property("mission", "scan").next());
-//
-//        Iterator<String> it = jsonObj.getJsonObject("$defs").keySet().iterator();
-//        while(it.hasNext()){
-//            String i = it.next();
-//            //create obv nodes and map their edges
-//            v.add(g.addV("observation").property("name", i).next());
-//            String type = jsonObj.getJsonObject(i).getString("type");
-//            switch(type){
-//                case "target":
-//                    g.addE("solved with").from(v.get(v.size()-1)).to(v.get(4)).iterate();
-//                    break;
-//                case "movement":
-//                    g.addE("solved with").from(v.get(v.size()-1)).to(v.get(5)).iterate();
-//                    break;
-//            }
-//        }
         
         // Create Operator object
         operatorModel = Operator.getInstance();
@@ -150,10 +122,18 @@ public class ComputationalCognitiveModel {
      */
     public static void updateModel(TimeStep timeStep) {
         System.out.println(timeStep);
-        // Read from model as a transaction
+        // Report new observations as a transaction
         Transaction tx = g.tx();
         GraphTraversalSource gtx = tx.begin();
 
+        // TODO: Decay all current observation edges --- CODE NOT VERIFIED
+//        GraphTraversal<Edge, Edge> all_reported_edges = gtx.E().hasLabel("reports");
+//        while(all_reported_edges.hasNext()) {
+//            Edge edge = all_reported_edges.next();
+//            edge.property("weight", Integer.parseInt(edge.value("weight")) * 0.8);
+//        }
+
+        // Add all new observations
         try {
             List<Vertex> vertices = new ArrayList<>();
             // Write all observations to the graph
@@ -182,8 +162,13 @@ public class ComputationalCognitiveModel {
                 edge.iterate();
 
             }
+            // Create mapping from action to observation
             actionObservationMapping.updateGraph(gtx, vertices);
+            // Create mapping from observation to UI
             observationUIMapping.updateGraph(gtx, vertices);
+
+            // Update weights based on new observations
+            updateWeights();
 
             tx.commit();
             gtx.close();
@@ -195,6 +180,36 @@ public class ComputationalCognitiveModel {
 
         System.out.println("-->Update the model - invoke this function when ");
         renderFrontEnd();
+    }
+
+    public static void updateModel(UserAction actionTaken) {
+
+        // TODO: See if any action taken triggers an activation or deactivation
+
+        // TODO: Make the activation or deactivation based on edges
+
+        // TODO: Update weights
+        updateWeights();
+
+    }
+
+    /**
+     * This function updates relevant edge. It should update the following weights in the following sequence:
+     *  - Outgoing edges from all action nodes based on in-weights from mission nodes
+     *  - Outgoing edges from all observations. Based on in-weights from actions, and agents
+     */
+    public static void updateWeights() {
+        // IMPLEMENT AS SINGLE TRANSACTION
+
+        // TODO: For each action node, calculate in weight then update all out edges from the node
+            // Query all in edges and sum them to calculate in weight
+            // If no in edges, inweight = 0
+            // Query all out edges and update them
+
+        // TODO: For each observation, calculate in weight then update all out edges from the node
+            // Query all in edges and sum them to calculate in weight
+            // Query all out edges and update them
+
     }
 
     /**

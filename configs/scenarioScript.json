@@ -93,7 +93,7 @@
         "observations": [
             {
                 "agent_id": "saturn",
-                "obv_type": "soldier_found",
+                "obv_type": "soldier_reported",
                 "attributes": [
                     {"label": "probability_human", "value": "45"},
                     {"label": "geo_human", "value": "(x, y)"},
@@ -201,7 +201,7 @@
                 "attributes": [
                     {"label": "time_since_idle", "value": "1"},
                     {"label": "awaiting_response", "value": "true"},
-                    {"label": "awaiting_observation", "value": "soldier_found"}
+                    {"label": "awaiting_observation", "value": "soldier_reported"}
                 ],
                 "edge": {
                     "edge_name": "reports",
@@ -663,7 +663,7 @@
         "observations": [
             {
                 "agent_id": "jupiter",
-                "obv_type": "soldier_found",
+                "obv_type": "soldier_reported",
                 "attributes": [
                     {"label": "probability_human", "value": "85"},
                     {"label": "geo_human", "value": "(x, y)"},
@@ -785,7 +785,7 @@
                 "attributes": [
                     {"label": "time_since_idle", "value": "1"},
                     {"label": "awaiting_response", "value": "true"},
-                    {"label": "awaiting_observation", "value": "soldier_found"}
+                    {"label": "awaiting_observation", "value": "soldier_reported"}
                 ],
                 "edge": {
                     "edge_name": "reports",
@@ -869,7 +869,7 @@
                 "attributes": [
                     {"label": "time_since_idle", "value": "2"},
                     {"label": "awaiting_response", "value": "true"},
-                    {"label": "awaiting_observation", "value": "soldier_found"}
+                    {"label": "awaiting_observation", "value": "soldier_reported"}
                 ],
                 "edge": {
                     "edge_name": "reports",
