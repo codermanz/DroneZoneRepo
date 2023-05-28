@@ -1,0 +1,74 @@
+[
+    {
+        "stress":5,
+        "attentiveness": 10
+    },
+    {
+        "stress":9,
+        "attentiveness": 9
+    },
+    {
+        "stress":1,
+        "attentiveness": 15
+    },
+    {
+        "stress":11,
+        "attentiveness": 4
+    },
+    {
+        "stress":9,
+        "attentiveness": 6
+    },
+    {
+        "stress":3,
+        "attentiveness": 7
+    },
+    {
+        "stress":25,
+        "attentiveness": 7
+    },
+    {
+        "stress":2,
+        "attentiveness": 10
+    },
+    {
+        "stress":7,
+        "attentiveness": 7
+    },
+    {
+        "stress":7,
+        "attentiveness": 9
+    },
+    {
+        "stress":11,
+        "attentiveness": 8
+    },
+    {
+        "stress":3,
+        "attentiveness": 8
+    },
+    {
+        "stress":1,
+        "attentiveness": 10
+    },
+    {
+        "stress":6,
+        "attentiveness": 10
+    },
+    {
+        "stress":5,
+        "attentiveness": 9
+    },
+    {
+        "stress":5,
+        "attentiveness": 9
+    },
+    {
+        "stress":0,
+        "attentiveness": 20
+    },
+    {
+        "stress":10,
+        "attentiveness": 15
+    }
+]
