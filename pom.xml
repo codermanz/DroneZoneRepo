@@ -22,6 +22,12 @@
             <artifactId>gremlin-core</artifactId>
             <version>3.5.5</version>
         </dependency>
+        
+        <dependency>
+<groupId>com.googlecode.json-simple</groupId>
+<artifactId>json-simple</artifactId>
+<version>1.1.1</version>
+</dependency>
 
         <!-- when using Gremlin Server or Remote Gremlin Provider a driver is required -->
         <dependency>
@@ -49,6 +55,23 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.janusgraph</groupId>
+            <artifactId>janusgraph-core</artifactId>
+            <version>0.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.janusgraph</groupId>
+            <artifactId>janusgraph-inmemory</artifactId>
+            <version>0.6.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/transport -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>7.6.2</version>
+        </dependency>
+
 
         <!--        &lt;!&ndash;-->
 <!--        alternatively the driver is packaged as an uberjar with shaded non-optional dependencies including gremlin-core and-->

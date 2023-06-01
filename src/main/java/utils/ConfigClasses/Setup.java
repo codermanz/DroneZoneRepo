@@ -1,4 +1,4 @@
-package utils;
+package utils.ConfigClasses;
 
 import java.io.IOException;
 import java.nio.file.Paths;

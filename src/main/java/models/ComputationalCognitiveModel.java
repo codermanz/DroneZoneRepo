@@ -1,29 +1,20 @@
 package models;
 
-import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
-import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import org.apache.tinkerpop.gremlin.structure.Edge;
-import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Transaction;
 import utils.Mapping;
+import utils.ConfigClasses.Connection;
 import utils.jsonObjectModels.Observation;
 import utils.jsonObjectModels.TimeStep;
-import utils.Setup;
+import utils.ConfigClasses.Setup;
 import javax.json.JsonObject;
-import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
-import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import utils.jsonObjectModels.UserAction;
-
-import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
-
+import utils.Decays;
 public class ComputationalCognitiveModel {
 
     // Singleton Computation Cognitive Model Singleton Instance
@@ -41,11 +32,10 @@ public class ComputationalCognitiveModel {
      * Constructor will instantiate graph model and go through set up for defining
      */
     private ComputationalCognitiveModel(JsonObject jsonObj) {
-        // Create and connect to janus graph instance
-        this.g = traversal().
-                withRemote(DriverRemoteConnection.using("localhost",8182,"g"));
 
-        // TODO: Define obv and action space
+        // Create and connect to janusgraph instance + add float-schema for observation weights
+        Connection connection = new Connection();
+        this.g = connection.createConnection();
 
         // TODO: Get into the .json files and think about / edit the attributes so that they make sense
         // create initial graph with mission action and component nodes from json-scripts
@@ -57,7 +47,6 @@ public class ComputationalCognitiveModel {
         missionNodeSetup.createNodes(g);
         actionNodeSetup.createNodes(g);
 
-
         // TODO: Get into the .conf files and think about / edit the mappings so that the mappings itself, the weights,
         //  edge attributes etc. make sense
         // define mappings between certain types of vertices
@@ -67,9 +56,10 @@ public class ComputationalCognitiveModel {
         actionUIMapping = new Mapping("./configs/default-action-ui-mapping.conf");
 
 
-        /* Update graph based on the defined static mappings: (create edges)
-            - mission - action mapping
-            - action - ui component mapping
+        /*
+            Update graph based on the defined static mappings: (create edges)
+                - mission - action mapping
+                - action - ui component mapping
         */
         missionActionMapping.updateGraph(g, missionNodeSetup.getCreatedVertices());
         actionUIMapping.updateGraph(g, actionNodeSetup.getCreatedVertices());
@@ -85,7 +75,7 @@ public class ComputationalCognitiveModel {
     }
 
     /**
-     * Implements singletonness of this class. Will return a
+     * Implements singletoness of this class. Will return a
      * @return
      */
     public static synchronized ComputationalCognitiveModel getInstance() {
@@ -127,13 +117,14 @@ public class ComputationalCognitiveModel {
         Transaction tx = g.tx();
         GraphTraversalSource gtx = tx.begin();
 
-        // TODO: Decay all current observation edges --- CODE NOT VERIFIED
-//        GraphTraversal<Edge, Edge> all_reported_edges = gtx.E().hasLabel("reports");
-//        while(all_reported_edges.hasNext()) {
-//            Edge edge = all_reported_edges.next();
-//            edge.property("weight", Integer.parseInt(edge.value("weight")) * 0.8);
-//        }
-
+        // Decay all current observation edges
+        GraphTraversal<Edge, Edge> all_reported_edges = gtx.E().hasLabel("reports");
+        while(all_reported_edges.hasNext()) {
+            Edge edge = all_reported_edges.next();
+            double currentWeight = ((Integer)gtx.E(edge.id()).valueMap().next().get("weight")).doubleValue();
+            double decayedWeight = Decays.defaultDecay(currentWeight, 2);
+            gtx.E(edge.id()).property("weight", decayedWeight).iterate();
+        }
         // Add all new observations
         try {
             List<Vertex> vertices = new ArrayList<>();
@@ -159,7 +150,10 @@ public class ComputationalCognitiveModel {
 
                 // Create edge between agent and observation
                 GraphTraversal<Edge, Edge> edge = gtx.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
-                obv.getEdge().getAttributes().forEach(x -> edge.property(x.getAttribute_Name(), x.getAttribute_Value()));
+                obv.getEdge().getAttributes().forEach(x -> {
+                    edge.property((String)x.getAttribute_Name(), Float.parseFloat(x.getAttribute_Value()));
+                        }
+                );
                 edge.iterate();
 
             }

@@ -1,16 +1,16 @@
 [{
     "mission_id": "rescue_soldier",
     "mission_type": "rescue",
-    "importance": 100
+    "importance": 100.0
 },
 {
     "mission_id": "scan_zone",
     "mission_type": "info",
-    "importance": 80
+    "importance": 80.0
 },
 {
     "mission_id": "identify_soldier",
     "mission_type": "rescue",
-    "importance": 90
+    "importance": 90.0
 }
 ]

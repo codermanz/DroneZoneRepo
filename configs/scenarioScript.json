@@ -17,7 +17,7 @@
                 "edge": {
                     "edge_name": "reports",
                     "attributes": [
-                        {"label": "weight", "value": "1"},
+                        {"label": "weight", "value": "1.0"},
                         {"label": "timestamp", "value": "1"}
                     ]
                 }
@@ -36,7 +36,7 @@
                 "edge": {
                     "edge_name": "reports",
                     "attributes": [
-                        {"label":  "weight", "value": "1"},
+                        {"label":  "weight", "value": "1.0"},
                         {"label": "timestamp", "value": "1"}
                     ]
                 }
@@ -55,7 +55,7 @@
                 "edge": {
                     "edge_name": "reports",
                     "attributes": [
-                        {"label": "weight", "value": "1"},
+                        {"label": "weight", "value": "1.0"},
                         {"label": "timestamp", "value": "1"}
                     ]
                 }
@@ -74,7 +74,7 @@
                 "edge": {
                     "edge_name": "reports",
                     "attributes": [
-                        {"label": "weight", "value": "1"},
+                        {"label": "weight", "value": "1.0"},
                         {"label": "timestamp", "value": "1"}
                     ]
                 }

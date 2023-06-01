@@ -27,9 +27,10 @@ public class SimulatedDOMS {
         String fileName;
 
         do {
-            System.out.println("Enter the file path of scenario Script to read from relative to the following " +
-                    "directory: " + System.getProperty("user.dir"));
-            fileName = scanner.nextLine();
+            //System.out.println("Enter the file path of scenario Script to read from relative to the following " +
+            // "directory: " + System.getProperty("user.dir"));
+            // fileName = scanner.nextLine();
+            fileName = "configs/scenarioScript.json";
             scenarioScriptFile = new File(fileName);
         } while (!scenarioScriptFile.exists());
 
