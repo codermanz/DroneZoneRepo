@@ -88,7 +88,7 @@ public class Mapping{
 
             // 0. get each parentVertex mapping property to find its mapped children in this.mapping
             for (Vertex parent: vertices){
-                ArrayList parentMatchingKeyList = (ArrayList) graph.V(parent.id()).valueMap().next().get(parentVertexMainProperty);
+                LinkedList parentMatchingKeyList = (LinkedList) graph.V(parent.id()).valueMap().next().get(parentVertexMainProperty);
                 String parentMatchingKey = (String) parentMatchingKeyList.get(0);
                 HashMap<String, ArrayList<Object>> childrenMap = this.mapping.get(parentMatchingKey);
                 /*  1. iterate over all children of the current parent in this.mapping
@@ -136,7 +136,7 @@ public class Mapping{
                 for (String parentKey : this.mapping.keySet()) {
                     HashMap<String, ArrayList<Object>> childrenMap = this.mapping.get(parentKey);
                     for (String childKey : childrenMap.keySet()) {
-                        ArrayList childMatchingKeyList = (ArrayList) graph.V(child.id()).valueMap().next().get(childVertexMainProperty);
+                        LinkedList childMatchingKeyList = (LinkedList) graph.V(child.id()).valueMap().next().get(childVertexMainProperty);
                         String childMatchingKey = (String) childMatchingKeyList.get(0);
                         if (childKey.equals(childMatchingKey)){
                             List<Vertex> parentVertices = graph.V().hasLabel(parentVertexLabel).has(parentVertexMainProperty, parentKey).toList();
