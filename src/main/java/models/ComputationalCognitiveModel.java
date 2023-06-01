@@ -1,6 +1,7 @@
 package models;
 
 import org.apache.tinkerpop.gremlin.driver.remote.DriverRemoteConnection;
+import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import java.util.ArrayList;
@@ -168,7 +169,7 @@ public class ComputationalCognitiveModel {
             observationUIMapping.updateGraph(gtx, vertices);
 
             // Update weights based on new observations
-            updateWeights();
+            updateWeights(gtx);
 
             tx.commit();
             gtx.close();
@@ -183,13 +184,24 @@ public class ComputationalCognitiveModel {
     }
 
     public static void updateModel(UserAction actionTaken) {
+        Transaction tx = g.tx();
+        GraphTraversalSource gtx = tx.begin();
 
-        // TODO: See if any action taken triggers an activation or deactivation
+        try {
+            // TODO: See if any action taken triggers an activation(s) or deactivation(s)
 
-        // TODO: Make the activation or deactivation based on edges
+            // TODO: Make the activation(s) or deactivation(s) based on edges
 
-        // TODO: Update weights
-        updateWeights();
+            // TODO: Update weights
+            updateWeights(gtx);
+
+            tx.commit();
+            gtx.close();
+
+        }  catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        }
 
     }
 
@@ -198,18 +210,52 @@ public class ComputationalCognitiveModel {
      *  - Outgoing edges from all action nodes based on in-weights from mission nodes
      *  - Outgoing edges from all observations. Based on in-weights from actions, and agents
      */
-    public static void updateWeights() {
-        // IMPLEMENT AS SINGLE TRANSACTION
+    public static void updateWeights(GraphTraversalSource gtx) {
+        // IMPLEMENT AS SINGLE TRANSACTION -- THIS MAKES A NESTED TRANSACTION AND THUS REQUIRES some verification.
 
         // TODO: For each action node, calculate in weight then update all out edges from the node
-            // Query all in edges and sum them to calculate in weight
-            // If no in edges, inweight = 0
-            // Query all out edges and update them
+        GraphTraversal<Vertex, Vertex> actions = gtx.V().hasLabel("action");
+
+        // For all action nodes in the graph, calculate in weight, and update all out going edges with this value
+        while (actions.hasNext()) {
+            float cumulativeWeight = 0;
+            Vertex actionNode = actions.next();
+
+            // Calculate cumulative in-weights based on all incoming edges
+            List<Edge> incomingEdges = g.V(actionNode).inE().toList();
+            for (Edge edge : incomingEdges)
+                cumulativeWeight += (Float)edge.property("weight").value();
+
+            // Update all outgoing edges based on calculated in weights
+            List<Edge> outgoingEdges = g.V(actionNode).outE().toList();
+            for (Edge edge : outgoingEdges) {
+                GraphTraversal<Edge, Edge> edgeToUpdate = g.E(edge);
+                edgeToUpdate.property("weight", cumulativeWeight);
+                edgeToUpdate.iterate();
+            }
+        }
 
         // TODO: For each observation, calculate in weight then update all out edges from the node
-            // Query all in edges and sum them to calculate in weight
-            // Query all out edges and update them
+        GraphTraversal<Vertex, Vertex> observations = gtx.V().hasLabel("observation");
 
+        // For all action nodes in the graph, calculate in weight, and update all out going edges with this value
+        while (observations.hasNext()) {
+            float cumulativeWeight = 0;
+            Vertex observationNode = observations.next();
+
+            // Calculate cumulative in-weights based on all incoming edges
+            List<Edge> incomingEdges = g.V(observationNode).inE().toList();
+            for (Edge edge : incomingEdges)
+                cumulativeWeight += (Float)edge.property("weight").value();
+
+            // Update all outgoing edges based on calculated in weights
+            List<Edge> outgoingEdges = g.V(observationNode).outE().toList();
+            for (Edge edge : outgoingEdges) {
+                GraphTraversal<Edge, Edge> edgeToUpdate = g.E(edge);
+                edgeToUpdate.property("weight", cumulativeWeight);
+                edgeToUpdate.iterate();
+            }
+        }
     }
 
     /**
