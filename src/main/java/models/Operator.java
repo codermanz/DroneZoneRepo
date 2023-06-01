@@ -24,16 +24,16 @@ public class Operator {
         return INSTANCE;
     }
 
-    protected static String getCurrentOperatorState() {
+    public static String getCurrentOperatorState() {
         return INSTANCE.toString();
     }
 
-    protected boolean updateStress(int updatedStress) {
+    public boolean updateStress(int updatedStress) {
         this.stress = updatedStress;
         return true;
     }
 
-    protected boolean updatedAttentiveness(int updatedAttentiveness) {
+    public boolean updatedAttentiveness(int updatedAttentiveness) {
         this.attentiveness = updatedAttentiveness;
         return true;
     }

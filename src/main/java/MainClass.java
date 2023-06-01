@@ -1,21 +1,28 @@
+import java.io.FileReader;
 import models.ComputationalCognitiveModel;
 import models.SimulatedDOMS;
 import utils.jsonObjectModels.TimeStep;
 
 import java.io.IOException;
 import java.util.Scanner;
+import models.Operator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class MainClass {
 
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
 
         // Create models
         ComputationalCognitiveModel ccm = ComputationalCognitiveModel.getInstance();
         SimulatedDOMS simulatedDOMS = SimulatedDOMS.getInstance();
-        // TODO: Create another Simulated UI Component that streams in actions taken by user
-
+        Operator op = ccm.getOperatorModel();
         // Other vars
+        
+        JSONArray js = (JSONArray) new JSONParser().parse(new FileReader("operator.json"));
+        
         Scanner scanner = new Scanner(System.in);
         int iteration = 0;
         String input = "";
@@ -28,8 +35,16 @@ public class MainClass {
                 break;
 
             ccm.updateModel(timeStep);
-
-
+            
+            JSONObject json = (JSONObject) js.get(iteration);
+            Integer stress = (Integer) json.get("stress");
+            Integer attentiveness = (Integer) json.get("attentiveness");
+            String old = op.getCurrentOperatorState();
+            op.updateStress(stress);
+            op.updatedAttentiveness(attentiveness);
+            if(!op.getCurrentOperatorState().equals(old)) {
+                ccm.updateModel();
+            }
             input = scanner.nextLine();
             iteration++;
         }
