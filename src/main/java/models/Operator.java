@@ -27,6 +27,22 @@ public class Operator {
     public static String getCurrentOperatorState() {
         return INSTANCE.toString();
     }
+    
+    public static long getstress(){
+        return stress;
+    }
+    
+    public static long getStress(){
+        return INSTANCE.getstress();
+    }
+    
+    public static long getattentiveness(){
+        return attentiveness;
+    }
+    
+    public static long getAttentiveness(){
+        return INSTANCE.getattentiveness();
+    }
 
     public boolean updateStress(long updatedStress) {
         this.stress = updatedStress;

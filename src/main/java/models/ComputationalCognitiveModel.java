@@ -108,6 +108,12 @@ public class ComputationalCognitiveModel {
     public static void updateModel() {
         System.out.println("-->Update the model - invoke this function when model needs to be updated due to " +
                 "change in operator model");
+        // Report new observations as a transaction
+        Transaction tx = g.tx();
+        GraphTraversalSource gtx = tx.begin();
+        for(Vertex v : gtx.V().toList()){
+            gtx.V(v.id()).property("attentiveness", operatorModel.getAttentiveness()).property("stress", operatorModel.getStress()).hasNot("action").property("usefulness", operatorModel.getAttentiveness()*v.label().hashCode()).iterate();
+        }
         renderFrontEnd();
     }
 
