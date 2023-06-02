@@ -1,6 +1,5 @@
 package utils;
 
-import org.apache.tinkerpop.gremlin.driver.ResultSet;
 import java.util.*;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -9,12 +8,18 @@ import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigList;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import java.io.File;
 
 
+
+
+/*
+* Function that automatically creates edges between certain types of nodes after each timestep.
+* Those are defined in the /conf/mappings/ files.
+* e.g. creates edges between new observations and ui-components, etc.
+* */
 public class Mapping{
     /* Attributes */
     ArrayList<String> vertexLabels;                                     // ["parent", "child"]
@@ -60,7 +65,7 @@ public class Mapping{
         setEdgeProperties(convertConfigListToArrayList(myEdgeProps));
     }
 
-    /* Main update function */
+    /* Main function to update the graph and create the edges */
     public GraphTraversalSource updateGraph(GraphTraversalSource graph, List<Vertex> vertices) {
         /* creates edges based on the .conf file.
          * assumes that the vertices that need to be connected are already existing in the graph without the edges between them.
@@ -111,8 +116,8 @@ public class Mapping{
                         for (int i = 0; i < propertyNames.size(); i++) {
 //                            edge.property((String) propertyNames.get(i), propertyValues.get(i).toString().replaceAll("[a-zA-Z]", ""));
 
-                            String test = propertyValues.get(i).toString().replaceAll("[a-zA-Z]", "");
-                            edge.property((String) propertyNames.get(i), test);                        }
+                            String newWeight = propertyValues.get(i).toString().replaceAll("[a-zA-Z]", "");
+                            edge.property((String) propertyNames.get(i), newWeight);                        }
 
                         // finalize changes
                         edge.iterate();
@@ -150,8 +155,8 @@ public class Mapping{
                                 ArrayList<Object> propertyNames = this.edgeProperties;
                                 ArrayList<Object> propertyValues = childrenMap.get(childKey);
                                 for (int i = 0; i < propertyNames.size(); i++) {
-                                    String test = propertyValues.get(i).toString().replaceAll("[a-zA-Z]", "");
-                                    edge.property((String) propertyNames.get(i), test);
+                                    String newWeight = propertyValues.get(i).toString().replaceAll("[a-zA-Z]", "");
+                                    edge.property((String) propertyNames.get(i), newWeight);
                                 }
                                 edge.iterate();
                             }

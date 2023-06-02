@@ -46,9 +46,9 @@ public class ComputationalCognitiveModel {
 
         // TODO: Get into the .json files and think about / edit the attributes so that they make sense
         // create initial graph with mission action and component nodes from json-scripts
-        Setup componentNodeSetup = new Setup("./configs/componentScript.json", "ui-component");
-        Setup missionNodeSetup = new Setup("./configs/missionScript.json", "mission");
-        Setup actionNodeSetup = new Setup("./configs/actionScript.json", "action");
+        Setup componentNodeSetup = new Setup("./configs/vertexScripts/componentScript.json", "ui-component");
+        Setup missionNodeSetup = new Setup("./configs/vertexScripts/missionScript.json", "mission");
+        Setup actionNodeSetup = new Setup("./configs/vertexScripts/actionScript.json", "action");
 
         componentNodeSetup.createNodes(g);
         missionNodeSetup.createNodes(g);
@@ -57,10 +57,10 @@ public class ComputationalCognitiveModel {
         // TODO: Get into the .conf files and think about / edit the mappings so that the mappings itself, the weights,
         //  edge attributes etc. make sense
         // define mappings between certain types of vertices
-        missionActionMapping = new Mapping("./configs/default-mission-action-mapping.conf");
-        actionObservationMapping = new Mapping("./configs/default-action-observation-mapping.conf");
-        observationUIMapping = new Mapping("./configs/default-observation-ui-mapping.conf");
-        actionUIMapping = new Mapping("./configs/default-action-ui-mapping.conf");
+        missionActionMapping = new Mapping("./configs/mappings/default-mission-action-mapping.conf");
+        actionObservationMapping = new Mapping("./configs/mappings/default-action-observation-mapping.conf");
+        observationUIMapping = new Mapping("./configs/mappings/default-observation-ui-mapping.conf");
+        actionUIMapping = new Mapping("./configs/mappings/default-action-ui-mapping.conf");
 
         // Read in prioritization and deprioritizations lists
         ObjectMapper objectMapper = new ObjectMapper();
@@ -108,6 +108,12 @@ public class ComputationalCognitiveModel {
     public static void updateModel() {
         System.out.println("-->Update the model - invoke this function when model needs to be updated due to " +
                 "change in operator model");
+        // Report new observations as a transaction
+        Transaction tx = g.tx();
+        GraphTraversalSource gtx = tx.begin();
+        for(Vertex v : gtx.V().toList()){
+            gtx.V(v.id()).property("attentiveness", operatorModel.getAttentiveness()).property("stress", operatorModel.getStress()).hasNot("action").property("usefulness", operatorModel.getAttentiveness()*v.label().hashCode()).iterate();
+        }
         renderFrontEnd();
     }
 

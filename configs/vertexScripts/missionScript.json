@@ -1,0 +1,16 @@
+[{
+    "mission_id": "rescue_soldier",
+    "mission_type": "rescue",
+    "importance": 3
+},
+{
+    "mission_id": "maintain_hardware",
+    "mission_type": "info",
+    "importance": 1
+},
+{
+    "mission_id": "identify_rescue_path",
+    "mission_type": "rescue",
+    "importance": 2
+}
+]
