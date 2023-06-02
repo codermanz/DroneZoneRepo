@@ -2,61 +2,69 @@ package utils.jsonObjectModels;
 
 import java.util.List;
 
+
 public class Deprioritization {
 
-    private String deactivation_reason;
-    private String deactivating_node_type;
-    private List<String> deactivating_missions;
-    private List<String> target_action;
+    private String deprioritization_reason;
+    private String deprioritizing_node_type;
+    private List<String> deprioritizing_missions;
+    private List<String> target_actions;
+    private double scalar_multiplier;
 
-    public Deprioritization() {
+    public Deprioritization() {}
 
+    public Deprioritization(String deprioritization_reason, String deprioritizing_node_type, List<String> deprioritizing_missions, List<String> target_actions, double scalar_multiplier) {
+        this.deprioritization_reason = deprioritization_reason;
+        this.deprioritizing_node_type = deprioritizing_node_type;
+        this.deprioritizing_missions = deprioritizing_missions;
+        this.target_actions = target_actions;
+        this.scalar_multiplier = scalar_multiplier;
     }
 
-    public Deprioritization(String deactivation_reason, String deactivating_node_type, List<String> deactivating_missions,
-                            List<String> target_action) {
-        this.deactivation_reason = deactivation_reason;
-        this.deactivating_node_type = deactivating_node_type;
-        this.deactivating_missions = deactivating_missions;
-        this.target_action = target_action;
+    public String getDeprioritization_reason() {
+        return deprioritization_reason;
     }
 
-    public String getDeactivation_reason() {
-        return deactivation_reason;
+    public void setDeprioritization_reason(String deprioritization_reason) {
+        this.deprioritization_reason = deprioritization_reason;
     }
 
-    public void setDeactivation_reason(String deactivation_reason) {
-        this.deactivation_reason = deactivation_reason;
+    public String getDeprioritizing_node_type() {
+        return deprioritizing_node_type;
     }
 
-    public String getDeactivating_node_type() {
-        return deactivating_node_type;
+    public void setDeprioritizing_node_type(String deprioritizing_node_type) {
+        this.deprioritizing_node_type = deprioritizing_node_type;
     }
 
-    public void setDeactivating_node_type(String deactivating_node_type) {
-        this.deactivating_node_type = deactivating_node_type;
+    public List<String> getDeprioritizing_missions() {
+        return deprioritizing_missions;
     }
 
-    public List<String> getDeactivating_missions() {
-        return deactivating_missions;
+    public void setDeprioritizing_missions(List<String> deprioritizing_missions) {
+        this.deprioritizing_missions = deprioritizing_missions;
     }
 
-    public void setDeactivating_missions(List<String> deactivating_missions) {
-        this.deactivating_missions = deactivating_missions;
+    public List<String> getTarget_actions() {
+        return target_actions;
     }
 
-    public List<String> getTarget_action() {
-        return target_action;
+    public void setTarget_actions(List<String> target_actions) {
+        this.target_actions = target_actions;
     }
 
-    public void setTarget_action(List<String> target_action) {
-        this.target_action = target_action;
+    public double getScalar_multiplier() {
+        return scalar_multiplier;
+    }
+
+    public void setScalar_multiplier(double scalar_multiplier) {
+        this.scalar_multiplier = scalar_multiplier;
     }
 
     @Override
     public String toString() {
-        return ("Deprioritization reason: " + this.deactivation_reason + ", deprioritizing Node: " +
-                this.deactivating_node_type + ", deprioritizing missions: " + this.deactivating_missions +
-                ", deprioritzation targets: " + this.target_action);
+        return ("Deprioritization reason: " + this.deprioritization_reason + ", deprioritizing Node: " +
+                this.deprioritizing_node_type + ", deprioritizing missions: " + this.deprioritizing_missions +
+                ", deprioritzation targets: " + this.target_actions + ", Multiplier: " + this.scalar_multiplier);
     }
 }

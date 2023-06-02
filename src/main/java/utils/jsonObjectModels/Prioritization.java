@@ -4,69 +4,79 @@ import java.util.List;
 
 public class Prioritization {
 
-    private String activation_reason;
-    private String activating_node_type;
-    private List<String> activating_missions;
-    private List<String> target_action;
-    private int importance;
+    private String prioritization_reason;
+    private String prioritizing_node_type;
+    private List<String> prioritizing_missions;
+    private List<String> target_actions;
+    private double scalar_multiplier;
 
-    public Prioritization() {
+    public Prioritization() {}
 
+    public Prioritization(String prioritization_reason, String prioritizing_node_type, List<String> prioritizing_missions, List<String> target_actions, double scalar_multiplier) {
+        this.prioritization_reason = prioritization_reason;
+        this.prioritizing_node_type = prioritizing_node_type;
+        this.prioritizing_missions = prioritizing_missions;
+        this.target_actions = target_actions;
+        this.scalar_multiplier = scalar_multiplier;
     }
 
-    public Prioritization(String activation_reason, String activating_node_type, List<String> missions,
-                          List<String> target_action, int importance) {
-        this.activation_reason = activation_reason;
-        this.activating_node_type = activating_node_type;
-        this.activating_missions = missions;
-        this.target_action = target_action;
-        this.importance = importance;
+    public String getPrioritization_reason() {
+        return prioritization_reason;
     }
 
-    public String getActivation_reason() {
-        return activation_reason;
+    public void setPrioritization_reason(String prioritization_reason) {
+        this.prioritization_reason = prioritization_reason;
     }
 
-    public void setActivation_reason(String activation_reason) {
-        this.activation_reason = activation_reason;
+    public String getPrioritizing_node_type() {
+        return prioritizing_node_type;
     }
 
-    public String getActivating_node_type() {
-        return activating_node_type;
+    public void setPrioritizing_node_type(String prioritizing_node_type) {
+        this.prioritizing_node_type = prioritizing_node_type;
     }
 
-    public void setActivating_node_type(String activating_node_type) {
-        this.activating_node_type = activating_node_type;
+    public List<String> getPrioritizing_missions() {
+        return prioritizing_missions;
     }
 
-    public List<String> getActivating_missions() {
-        return activating_missions;
+    public void setPrioritizing_missions(List<String> prioritizing_missions) {
+        this.prioritizing_missions = prioritizing_missions;
     }
 
-    public void setActivating_missions(List<String> activating_missions) {
-        this.activating_missions = activating_missions;
+    public List<String> getTarget_actions() {
+        return target_actions;
     }
 
-    public List<String> getTarget_action() {
-        return target_action;
+    public void setTarget_actions(List<String> target_actions) {
+        this.target_actions = target_actions;
     }
 
-    public void setTarget_action(List<String> target_action) {
-        this.target_action = target_action;
+    public double getScalar_multiplier() {
+        return scalar_multiplier;
     }
 
-    public int getImportance() {
-        return importance;
-    }
-
-    public void setImportance(int importance) {
-        this.importance = importance;
+    public void setScalar_multiplier(double scalar_multiplier) {
+        this.scalar_multiplier = scalar_multiplier;
     }
 
     @Override
     public String toString() {
-        return ("Prioritization reason: " + this.activation_reason + ", Prioritization Node: " + this.activating_node_type +
-                ", Importance: " + this.importance + ", Prioritizing missions: " + this.activating_missions +
-                ", Prioritizing targets: " + this.target_action);
+        return ("Prioritization reason: " + this.prioritization_reason + ", Prioritization Node: " + this.prioritizing_node_type +
+                ", multiple: " + this.scalar_multiplier + ", Prioritizing missions: " + this.prioritizing_missions +
+                ", Prioritizing targets: " + this.target_actions);
     }
 }
+
+/*
+ OBJECT FOR JSON FOR PRIORITIZATION
+
+     {
+        "prioritization_reason": "observation",
+        "prioritizing_node_type": "soldier_reported",
+        "prioritizing_missions": ["rescue_soldier"],
+        "target_actions": ["confirm_soldier", "decline_soldier", "monitor_drone", "check_drone_report"],
+        "scalar_multiplier": 2.0
+    }
+
+ */

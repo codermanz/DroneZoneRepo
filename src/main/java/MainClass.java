@@ -1,6 +1,7 @@
 import java.io.FileReader;
 import models.ComputationalCognitiveModel;
 import models.SimulatedDOMS;
+import models.SimulatedUIStream;
 import utils.jsonObjectModels.TimeStep;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import utils.jsonObjectModels.UserAction;
 
 public class MainClass {
 
@@ -20,6 +22,7 @@ public class MainClass {
         // Create models
         ComputationalCognitiveModel ccm = ComputationalCognitiveModel.getInstance();
         SimulatedDOMS simulatedDOMS = SimulatedDOMS.getInstance();
+        SimulatedUIStream uiStream = SimulatedUIStream.getInstance();
         Operator op = ccm.getOperatorModel();
         // Other vars
         
@@ -33,9 +36,17 @@ public class MainClass {
         while (input != "-1") {
 
             TimeStep timeStep = simulatedDOMS.reportFilteredStateToCCM(iteration);
-            if (timeStep == null)
-                break;
+            UserAction userActionForTimestep = uiStream.reportAction(iteration);
 
+            // Update model according to action if action was received
+            if (userActionForTimestep != null)
+                ccm.updateModel(userActionForTimestep);
+
+            // If no observations for this time step, quit
+            if (timeStep == null)
+                continue;
+
+            // Update model with new observations
             ccm.updateModel(timeStep);
             
             JSONObject json = (JSONObject) js.get(iteration);
@@ -47,6 +58,7 @@ public class MainClass {
             if(!op.getCurrentOperatorState().equals(old)) {
                 ccm.updateModel();
             }
+
             input = scanner.nextLine();
             iteration++;
         }

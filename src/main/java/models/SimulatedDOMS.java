@@ -2,11 +2,8 @@ package models;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import utils.jsonObjectModels.TimeStep;
-
-import javax.json.JsonObject;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * SimulatedDOMS Singleton object. The only part of the DOMS which is simulated is the updating of observations
@@ -19,17 +16,11 @@ public class SimulatedDOMS {
 
     private static TimeStep[] timeSteps;
 
-
-
     private SimulatedDOMS() {
         // Open simulated script to read
-        Scanner scanner = new Scanner(System.in);
         String fileName;
 
         do {
-            //System.out.println("Enter the file path of scenario Script to read from relative to the following " +
-            // "directory: " + System.getProperty("user.dir"));
-            // fileName = scanner.nextLine();
             fileName = "configs/scenarioScript.json";
             scenarioScriptFile = new File(fileName);
         } while (!scenarioScriptFile.exists());

@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tinkerpop.gremlin.driver.RequestOptions;
 import org.apache.tinkerpop.gremlin.driver.Result;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
@@ -10,20 +12,14 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Transaction;
-import org.janusgraph.core.JanusGraph;
-import org.janusgraph.core.JanusGraphFactory;
-import org.janusgraph.core.schema.JanusGraphManagement;
 import utils.Mapping;
 import utils.ConfigClasses.Connection;
-import utils.jsonObjectModels.Observation;
-import utils.jsonObjectModels.TimeStep;
+import utils.jsonObjectModels.*;
 import utils.ConfigClasses.Setup;
 import javax.json.JsonObject;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import utils.jsonObjectModels.UserAction;
 import utils.Decays;
-import utils.jsonObjectModels.Deprioritization;
-import utils.jsonObjectModels.Prioritization;
+
 public class ComputationalCognitiveModel {
 
     // Singleton Computation Cognitive Model Singleton Instance
@@ -32,8 +28,8 @@ public class ComputationalCognitiveModel {
     private static Mapping actionObservationMapping;
     private static Mapping observationUIMapping;
     private static Mapping actionUIMapping;
-    private static ArrayList<Prioritization> prilist;
-    private static ArrayList<Deprioritization> delist;
+    private static Prioritization[] prioritizations;
+    private static Deprioritization[] deprioritizations;
     private static Operator operatorModel = null;
     private static GraphTraversalSource g;
 
@@ -42,7 +38,7 @@ public class ComputationalCognitiveModel {
      * Constructor of Cognitive Model. Private to ensure Singletonness
      * Constructor will instantiate graph model and go through set up for defining
      */
-    private ComputationalCognitiveModel(JsonObject jsonObj) throws ExecutionException, InterruptedException {
+    private ComputationalCognitiveModel(JsonObject jsonObj) throws ExecutionException, InterruptedException, JsonProcessingException {
 
         // Create and connect to janusgraph instance + add float-schema for observation weights
         Connection connection = new Connection();
@@ -66,6 +62,10 @@ public class ComputationalCognitiveModel {
         observationUIMapping = new Mapping("./configs/default-observation-ui-mapping.conf");
         actionUIMapping = new Mapping("./configs/default-action-ui-mapping.conf");
 
+        // Read in prioritization and deprioritizations lists
+        ObjectMapper objectMapper = new ObjectMapper();
+        prioritizations = objectMapper.readValue("configs/prioritizations.json", Prioritization[].class);
+        deprioritizations = objectMapper.readValue("configs/deprioritizations.json", Deprioritization[].class);
 
         /*
             Update graph based on the defined static mappings: (create edges)
@@ -89,7 +89,7 @@ public class ComputationalCognitiveModel {
      * Implements singletoness of this class. Will return a
      * @return
      */
-    public static synchronized ComputationalCognitiveModel getInstance() throws ExecutionException, InterruptedException {
+    public static synchronized ComputationalCognitiveModel getInstance() throws ExecutionException, InterruptedException, JsonProcessingException {
         JsonObject json = null;
         if (INSTANCE == null)
             INSTANCE = new ComputationalCognitiveModel(json);
@@ -193,13 +193,12 @@ public class ComputationalCognitiveModel {
 
         try {
             // TODO: See if any action taken triggers an activation(s) or deactivation(s)
-            ArrayList acts = actionTaken.getActions_taken();
-            for(Action action : acts){
-                String act = action.get("action_name");
-                for(Prioritization p : prilist){
-                    if(p.getActivating_node_type() == act){
-                        for(String mission : p.getActivating_missions()){
-                            for(String a :p.getTarget_action()){
+            List<String> acts = actionTaken.getActions_taken();
+            for(String act : acts) {
+                for(Prioritization p : prioritizations){
+                    if(p.getPrioritizing_node_type() == act){
+                        for(String mission : p.getPrioritizing_missions()){
+                            for(String a :p.getTarget_actions()){
                                 List<Edge> outgoingEdges = gtx.V().has("mission", mission).outE().has("action", a).toList();
                                 for (Edge edge : outgoingEdges) {
                                     double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
@@ -209,10 +208,10 @@ public class ComputationalCognitiveModel {
                         }
                     }
                 }
-                for(Deprioritization p : delist){
-                    if(p.getDeactivating_node_type() == act){
-                        for(String mission : p.getDeactivating_missions()){
-                            for(String a :p.getTarget_action()){
+                for(Deprioritization p : deprioritizations){
+                    if(p.getDeprioritizing_node_type() == act){
+                        for(String mission : p.getDeprioritizing_missions()){
+                            for(String a :p.getTarget_actions()){
                                 List<Edge> outgoingEdges = gtx.V().has("mission", mission).outE().has("action", a).toList();
                                 for (Edge edge : outgoingEdges) {
                                     double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
