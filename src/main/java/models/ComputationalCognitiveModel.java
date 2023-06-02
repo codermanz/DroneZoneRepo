@@ -22,6 +22,8 @@ import javax.json.JsonObject;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import utils.jsonObjectModels.UserAction;
 import utils.Decays;
+import utils.jsonObjectModels.Deprioritization;
+import utils.jsonObjectModels.Prioritization;
 public class ComputationalCognitiveModel {
 
     // Singleton Computation Cognitive Model Singleton Instance
@@ -30,6 +32,8 @@ public class ComputationalCognitiveModel {
     private static Mapping actionObservationMapping;
     private static Mapping observationUIMapping;
     private static Mapping actionUIMapping;
+    private static ArrayList<Prioritization> prilist;
+    private static ArrayList<Deprioritization> delist;
     private static Operator operatorModel = null;
     private static GraphTraversalSource g;
 
@@ -104,6 +108,12 @@ public class ComputationalCognitiveModel {
     public static void updateModel() {
         System.out.println("-->Update the model - invoke this function when model needs to be updated due to " +
                 "change in operator model");
+        // Report new observations as a transaction
+        Transaction tx = g.tx();
+        GraphTraversalSource gtx = tx.begin();
+        for(Vertex v : gtx.V().toList()){
+            gtx.V(v.id()).property("attentiveness", operatorModel.getAttentiveness()).property("stress", operatorModel.getStress()).hasNot("action").property("usefulness", operatorModel.getAttentiveness()*v.label().hashCode()).iterate();
+        }
         renderFrontEnd();
     }
 
@@ -189,7 +199,36 @@ public class ComputationalCognitiveModel {
 
         try {
             // TODO: See if any action taken triggers an activation(s) or deactivation(s)
-
+            ArrayList acts = actionTaken.getActions_taken();
+            for(Action action : acts){
+                String act = action.get("action_name");
+                for(Prioritization p : prilist){
+                    if(p.getActivating_node_type() == act){
+                        for(String mission : p.getActivating_missions()){
+                            for(String a :p.getTarget_action()){
+                                List<Edge> outgoingEdges = gtx.V().has("mission", mission).outE().has("action", a).toList();
+                                for (Edge edge : outgoingEdges) {
+                                    double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
+                                    gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
+                                }
+                            }
+                        }
+                    }
+                }
+                for(Deprioritization p : delist){
+                    if(p.getDeactivating_node_type() == act){
+                        for(String mission : p.getDeactivating_missions()){
+                            for(String a :p.getTarget_action()){
+                                List<Edge> outgoingEdges = gtx.V().has("mission", mission).outE().has("action", a).toList();
+                                for (Edge edge : outgoingEdges) {
+                                    double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
+                                    gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             // TODO: Make the activation(s) or deactivation(s) based on edges
 
