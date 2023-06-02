@@ -65,8 +65,8 @@ public class Prioritization {
 
     @Override
     public String toString() {
-        return ("Activation reason: " + this.activation_reason + ", Activating Node: " + this.activating_node_type +
-                ", Importance: " + this.importance + ", Activating missions: " + this.activating_missions +
-                ", Activating targets: " + this.target_action);
+        return ("Prioritization reason: " + this.activation_reason + ", Prioritization Node: " + this.activating_node_type +
+                ", Importance: " + this.importance + ", Prioritizing missions: " + this.activating_missions +
+                ", Prioritizing targets: " + this.target_action);
     }
 }

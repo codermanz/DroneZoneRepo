@@ -5,6 +5,8 @@ import utils.jsonObjectModels.TimeStep;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+
 import models.Operator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,7 +15,7 @@ import org.json.simple.parser.ParseException;
 
 public class MainClass {
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException, ExecutionException, InterruptedException {
 
         // Create models
         ComputationalCognitiveModel ccm = ComputationalCognitiveModel.getInstance();
@@ -21,7 +23,7 @@ public class MainClass {
         Operator op = ccm.getOperatorModel();
         // Other vars
         
-        JSONArray js = (JSONArray) new JSONParser().parse(new FileReader("operator.json"));
+        JSONArray js = (JSONArray) new JSONParser().parse(new FileReader("configs/operator.json"));
         
         Scanner scanner = new Scanner(System.in);
         int iteration = 0;
@@ -37,8 +39,8 @@ public class MainClass {
             ccm.updateModel(timeStep);
             
             JSONObject json = (JSONObject) js.get(iteration);
-            Integer stress = (Integer) json.get("stress");
-            Integer attentiveness = (Integer) json.get("attentiveness");
+            Long stress = (Long) json.get("stress");
+            Long attentiveness = (Long) json.get("attentiveness");
             String old = op.getCurrentOperatorState();
             op.updateStress(stress);
             op.updatedAttentiveness(attentiveness);

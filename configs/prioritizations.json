@@ -12,5 +12,19 @@
     "prioritizing_missions": ["rescue_soldier"],
     "target_action": ["drop_medipack", "classify_soldier", "check_drone_report"],
     "scalar_multiplier": 1.8
+  },
+  {
+    "prioritization_reason": "",
+    "prioritizing_node_type": "soldier_reported",
+    "prioritizing_missions": ["identify_soldier"],
+    "target_action": ["classify_soldier", "check_drone_report"],
+    "scalar_multiplier": 1.0
+  },
+  {
+    "prioritization_reason": "",
+    "prioritizing_node_type": "soldier_reported",
+    "prioritizing_missions": ["identify_soldier"],
+    "target_action": ["classify_soldier", "check_drone_report"],
+    "scalar_multiplier": 1.0
   }
 ]

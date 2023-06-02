@@ -6,8 +6,8 @@ public class Operator {
 
     private static Operator INSTANCE = null;
 
-    private static int stress;
-    private static int attentiveness;
+    private static long stress;
+    private static long attentiveness;
 
 
 
@@ -28,12 +28,12 @@ public class Operator {
         return INSTANCE.toString();
     }
 
-    public boolean updateStress(int updatedStress) {
+    public boolean updateStress(long updatedStress) {
         this.stress = updatedStress;
         return true;
     }
 
-    public boolean updatedAttentiveness(int updatedAttentiveness) {
+    public boolean updatedAttentiveness(long updatedAttentiveness) {
         this.attentiveness = updatedAttentiveness;
         return true;
     }

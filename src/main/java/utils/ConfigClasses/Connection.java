@@ -35,4 +35,12 @@ public class Connection {
 
         return(gts);
     }
+
+    public Cluster getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }
 }

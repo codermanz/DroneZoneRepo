@@ -1,11 +1,18 @@
 package models;
 
+import org.apache.tinkerpop.gremlin.driver.RequestOptions;
+import org.apache.tinkerpop.gremlin.driver.Result;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Transaction;
+import org.janusgraph.core.JanusGraph;
+import org.janusgraph.core.JanusGraphFactory;
+import org.janusgraph.core.schema.JanusGraphManagement;
 import utils.Mapping;
 import utils.ConfigClasses.Connection;
 import utils.jsonObjectModels.Observation;
@@ -31,7 +38,7 @@ public class ComputationalCognitiveModel {
      * Constructor of Cognitive Model. Private to ensure Singletonness
      * Constructor will instantiate graph model and go through set up for defining
      */
-    private ComputationalCognitiveModel(JsonObject jsonObj) {
+    private ComputationalCognitiveModel(JsonObject jsonObj) throws ExecutionException, InterruptedException {
 
         // Create and connect to janusgraph instance + add float-schema for observation weights
         Connection connection = new Connection();
@@ -78,7 +85,7 @@ public class ComputationalCognitiveModel {
      * Implements singletoness of this class. Will return a
      * @return
      */
-    public static synchronized ComputationalCognitiveModel getInstance() {
+    public static synchronized ComputationalCognitiveModel getInstance() throws ExecutionException, InterruptedException {
         JsonObject json = null;
         if (INSTANCE == null)
             INSTANCE = new ComputationalCognitiveModel(json);
@@ -118,13 +125,12 @@ public class ComputationalCognitiveModel {
         GraphTraversalSource gtx = tx.begin();
 
         // Decay all current observation edges
-        GraphTraversal<Edge, Edge> all_reported_edges = gtx.E().hasLabel("reports");
-        while(all_reported_edges.hasNext()) {
-            Edge edge = all_reported_edges.next();
-            double currentWeight = ((Integer)gtx.E(edge.id()).valueMap().next().get("weight")).doubleValue();
-            double decayedWeight = Decays.defaultDecay(currentWeight, 2);
-            gtx.E(edge.id()).property("weight", decayedWeight).iterate();
+        List<Edge> all_reported_edges = gtx.E().hasLabel("reports").toList();
+        for (Edge reportedEdge : all_reported_edges) {
+            double decayedValue = Double.parseDouble(gtx.E(reportedEdge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", "")) * 0.8;
+            gtx.E(reportedEdge.id()).property("gewicht", Double.toString(decayedValue)).iterate();
         }
+
         // Add all new observations
         try {
             List<Vertex> vertices = new ArrayList<>();
@@ -151,7 +157,7 @@ public class ComputationalCognitiveModel {
                 // Create edge between agent and observation
                 GraphTraversal<Edge, Edge> edge = gtx.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
                 obv.getEdge().getAttributes().forEach(x -> {
-                    edge.property((String)x.getAttribute_Name(), Float.parseFloat(x.getAttribute_Value()));
+                    edge.property((String)x.getAttribute_Name(), (String)x.getAttribute_Value());
                         }
                 );
                 edge.iterate();
@@ -184,9 +190,11 @@ public class ComputationalCognitiveModel {
         try {
             // TODO: See if any action taken triggers an activation(s) or deactivation(s)
 
+
             // TODO: Make the activation(s) or deactivation(s) based on edges
 
-            // TODO: Update weights
+
+            // Update weights
             updateWeights(gtx);
 
             tx.commit();
@@ -212,20 +220,18 @@ public class ComputationalCognitiveModel {
 
         // For all action nodes in the graph, calculate in weight, and update all out going edges with this value
         while (actions.hasNext()) {
-            float cumulativeWeight = 0;
+            double cumulativeWeight = 0;
             Vertex actionNode = actions.next();
 
             // Calculate cumulative in-weights based on all incoming edges
             List<Edge> incomingEdges = g.V(actionNode).inE().toList();
             for (Edge edge : incomingEdges)
-                cumulativeWeight += (Float)edge.property("weight").value();
+                cumulativeWeight += Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
 
             // Update all outgoing edges based on calculated in weights
             List<Edge> outgoingEdges = g.V(actionNode).outE().toList();
             for (Edge edge : outgoingEdges) {
-                GraphTraversal<Edge, Edge> edgeToUpdate = g.E(edge);
-                edgeToUpdate.property("weight", cumulativeWeight);
-                edgeToUpdate.iterate();
+                gtx.E(edge.id()).property("gewicht", Double.toString(cumulativeWeight)).iterate();
             }
         }
 
@@ -234,20 +240,18 @@ public class ComputationalCognitiveModel {
 
         // For all action nodes in the graph, calculate in weight, and update all out going edges with this value
         while (observations.hasNext()) {
-            float cumulativeWeight = 0;
+            double cumulativeWeight = 0;
             Vertex observationNode = observations.next();
 
             // Calculate cumulative in-weights based on all incoming edges
             List<Edge> incomingEdges = g.V(observationNode).inE().toList();
             for (Edge edge : incomingEdges)
-                cumulativeWeight += (Float)edge.property("weight").value();
+                cumulativeWeight += Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
 
             // Update all outgoing edges based on calculated in weights
             List<Edge> outgoingEdges = g.V(observationNode).outE().toList();
             for (Edge edge : outgoingEdges) {
-                GraphTraversal<Edge, Edge> edgeToUpdate = g.E(edge);
-                edgeToUpdate.property("weight", cumulativeWeight);
-                edgeToUpdate.iterate();
+                gtx.E(edge.id()).property("gewicht", Double.toString(cumulativeWeight)).iterate();
             }
         }
     }

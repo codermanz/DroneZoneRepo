@@ -109,8 +109,10 @@ public class Mapping{
                         ArrayList<Object> propertyNames = this.edgeProperties;
                         ArrayList<Object> propertyValues = childrenMap.get(childKey);
                         for (int i = 0; i < propertyNames.size(); i++) {
-                            edge.property((String) propertyNames.get(i), propertyValues.get(i));
-                        }
+//                            edge.property((String) propertyNames.get(i), propertyValues.get(i).toString().replaceAll("[a-zA-Z]", ""));
+
+                            String test = propertyValues.get(i).toString().replaceAll("[a-zA-Z]", "");
+                            edge.property((String) propertyNames.get(i), test);                        }
 
                         // finalize changes
                         edge.iterate();
@@ -148,7 +150,8 @@ public class Mapping{
                                 ArrayList<Object> propertyNames = this.edgeProperties;
                                 ArrayList<Object> propertyValues = childrenMap.get(childKey);
                                 for (int i = 0; i < propertyNames.size(); i++) {
-                                    edge.property((String) propertyNames.get(i), propertyValues.get(i));
+                                    String test = propertyValues.get(i).toString().replaceAll("[a-zA-Z]", "");
+                                    edge.property((String) propertyNames.get(i), test);
                                 }
                                 edge.iterate();
                             }

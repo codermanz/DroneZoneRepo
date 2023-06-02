@@ -55,8 +55,8 @@ public class Deprioritization {
 
     @Override
     public String toString() {
-        return ("Deactivating reason: " + this.deactivation_reason + ", Deactivating Node: " +
-                this.deactivating_node_type + ", Deactivating missions: " + this.deactivating_missions +
-                ", Deactivating targets: " + this.target_action);
+        return ("Deprioritization reason: " + this.deactivation_reason + ", deprioritizing Node: " +
+                this.deactivating_node_type + ", deprioritizing missions: " + this.deactivating_missions +
+                ", deprioritzation targets: " + this.target_action);
     }
 }
