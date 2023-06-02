@@ -6,6 +6,9 @@ import org.apache.tinkerpop.gremlin.driver.RequestOptions;
 import org.apache.tinkerpop.gremlin.driver.Result;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,6 +22,8 @@ import utils.ConfigClasses.Setup;
 import javax.json.JsonObject;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import utils.Decays;
+
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.inV;
 
 public class ComputationalCognitiveModel {
 
@@ -64,9 +69,13 @@ public class ComputationalCognitiveModel {
 
         // Read in prioritization and deprioritizations lists
         ObjectMapper objectMapper = new ObjectMapper();
-        prioritizations = objectMapper.readValue("configs/prioritizations.json", Prioritization[].class);
-        deprioritizations = objectMapper.readValue("configs/deprioritizations.json", Deprioritization[].class);
-
+        try {
+            prioritizations = objectMapper.readValue(new File("configs/prioritizations.json"), Prioritization[].class);
+            deprioritizations = objectMapper.readValue(new File("configs/deprioritizations.json"), Deprioritization[].class);
+        } catch (IOException e) {
+            System.out.println("COULDNT READ FROM PRIOTIZATION AND DEPRIOTIZATION");
+            e.printStackTrace();
+        }
         /*
             Update graph based on the defined static mappings: (create edges)
                 - mission - action mapping
@@ -144,6 +153,7 @@ public class ComputationalCognitiveModel {
         // Add all new observations
         try {
             List<Vertex> vertices = new ArrayList<>();
+            List<String> typesOfNewObservations = new ArrayList<>();
             // Write all observations to the graph
             for (Observation obv : timeStep.getObservations()) {
                 // Create agents
@@ -163,6 +173,8 @@ public class ComputationalCognitiveModel {
                 obv.getAttributes().forEach(x -> observation.property(x.getAttribute_Name(), x.getAttribute_Value()));
                 obvVert = observation.next();
                 vertices.add(obvVert);
+                // Add observation type to list
+                typesOfNewObservations.add(obv.getObv_type());
 
                 // Create edge between agent and observation
                 GraphTraversal<Edge, Edge> edge = gtx.addE(obv.getEdge().getEdge_name()).from(agentVert).to(obvVert);
@@ -177,6 +189,9 @@ public class ComputationalCognitiveModel {
             actionObservationMapping.updateGraph(gtx, vertices);
             // Create mapping from observation to UI
             observationUIMapping.updateGraph(gtx, vertices);
+
+            // Prioritizations/deprioritizations
+            prioritizingFramework(typesOfNewObservations, gtx);
 
             // Update weights based on new observations
             updateWeights(gtx);
@@ -196,53 +211,51 @@ public class ComputationalCognitiveModel {
     public static void updateModel(UserAction actionTaken) {
         Transaction tx = g.tx();
         GraphTraversalSource gtx = tx.begin();
-
         try {
-            // TODO: See if any action taken triggers an activation(s) or deactivation(s)
-            List<String> acts = actionTaken.getActions_taken();
-            for(String act : acts) {
-                for(Prioritization p : prioritizations){
-                    if(p.getPrioritizing_node_type() == act){
-                        for(String mission : p.getPrioritizing_missions()){
-                            for(String a :p.getTarget_actions()){
-                                List<Edge> outgoingEdges = gtx.V().has("mission", mission).outE().has("action", a).toList();
-                                for (Edge edge : outgoingEdges) {
-                                    double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
-                                    gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
-                                }
-                            }
-                        }
-                    }
-                }
-                for(Deprioritization p : deprioritizations){
-                    if(p.getDeprioritizing_node_type() == act){
-                        for(String mission : p.getDeprioritizing_missions()){
-                            for(String a :p.getTarget_actions()){
-                                List<Edge> outgoingEdges = gtx.V().has("mission", mission).outE().has("action", a).toList();
-                                for (Edge edge : outgoingEdges) {
-                                    double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
-                                    gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // TODO: Make the activation(s) or deactivation(s) based on edges
-
+            // Prioritizations/Deprioritzations
+            prioritizingFramework(actionTaken.getActions_taken(), gtx);
 
             // Update weights
             updateWeights(gtx);
 
             tx.commit();
             gtx.close();
-
         }  catch (Exception ex) {
             tx.rollback();
             ex.printStackTrace();
         }
+    }
 
+
+    public static void prioritizingFramework(List<String> listOfPrioritizationInfluencers, GraphTraversalSource gtx) {
+        for(String act : listOfPrioritizationInfluencers) {
+            for(Prioritization p : prioritizations){
+                if(p.getPrioritizing_node_type().equals(act)){
+                    for(String mission : p.getPrioritizing_missions()){
+                        for(String a :p.getTarget_actions()){
+                            List<Edge> outgoingEdges = g.V().has("mission_id", mission).outE("requires for completion").filter(inV().has("action_id", a)).toList();
+                            for (Edge edge : outgoingEdges) {
+                                double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
+                                gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
+                            }
+                        }
+                    }
+                }
+            }
+            for(Deprioritization p : deprioritizations){
+                if(p.getDeprioritizing_node_type().equals(act)){
+                    for(String mission : p.getDeprioritizing_missions()){
+                        for(String a :p.getTarget_actions()){
+                            List<Edge> outgoingEdges = gtx.V().has("mission_id", mission).outE().has("action_id", a).toList();
+                            for (Edge edge : outgoingEdges) {
+                                double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
+                                gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -253,7 +266,6 @@ public class ComputationalCognitiveModel {
     public static void updateWeights(GraphTraversalSource gtx) {
         // IMPLEMENT AS SINGLE TRANSACTION -- THIS MAKES A NESTED TRANSACTION AND THUS REQUIRES some verification.
 
-        // TODO: For each action node, calculate in weight then update all out edges from the node
         GraphTraversal<Vertex, Vertex> actions = gtx.V().hasLabel("action");
 
         // For all action nodes in the graph, calculate in weight, and update all out going edges with this value
@@ -273,7 +285,6 @@ public class ComputationalCognitiveModel {
             }
         }
 
-        // TODO: For each observation, calculate in weight then update all out edges from the node
         GraphTraversal<Vertex, Vertex> observations = gtx.V().hasLabel("observation");
 
         // For all action nodes in the graph, calculate in weight, and update all out going edges with this value

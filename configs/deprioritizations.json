@@ -9,9 +9,16 @@
   {
   "deprioritization_reason": "action",
   "deprioritizing_node_type": "decline_solider",
-  "deprioritizing_missions": ["rescue_soldier", "identify_rescue_path"],
-  "target_actions": ["confirm_soldier", "decline_soldier", "assign_drone_to_zone", "monitor_drone", "check_drone_report"],
+  "deprioritizing_missions": ["rescue_soldier"],
+  "target_actions": ["confirm_soldier", "decline_soldier"],
   "scalar_multiplier": 0.5
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "decline_solider",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["assign_drone_to_zone", "monitor_drone", "check_drone_report"],
+    "scalar_multiplier": 0.5
   },
   {
     "deprioritization_reason": "action",

@@ -44,7 +44,7 @@
   {
     "prioritization_reason": "observation",
     "prioritizing_node_type": "doms_suggestion",
-    "prioritizing_missions": ["rescue_soldier", "identify_rescue_path"],
+    "prioritizing_missions": ["identify_rescue_path"],
     "target_actions": ["accept_system_path", "override_system_path", "decline_system_path"],
     "scalar_multiplier": 1.5
   },

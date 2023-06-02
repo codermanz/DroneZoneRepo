@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import utils.jsonObjectModels.UserAction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SimulatedUIStream {
@@ -15,7 +16,7 @@ public class SimulatedUIStream {
     private SimulatedUIStream() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            this.actionStream = objectMapper.readValue("configs/actionStream", UserAction[].class);
+            this.actionStream = objectMapper.readValue(new File("configs/actionStream.json"), UserAction[].class);
         } catch (IOException e) {
             System.out.println("ERROR READING FROM JSON. SIMULATED UI WONT WORK");
             e.printStackTrace();
@@ -30,6 +31,7 @@ public class SimulatedUIStream {
     }
 
     public static UserAction reportAction(int iteration) {
+        iteration += 1;
         for (UserAction act : actionStream) {
             if (act.getTimestamp() == iteration) {
                 return (act);
