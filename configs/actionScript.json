@@ -1,36 +1,78 @@
-[{
+[
+{
+    "action_id": "confirm_soldier",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
+    "action_id": "decline_soldier",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
     "action_id": "drop_medipack",
-    "action_type": "rescue",
-    "importance": 100.0
+    "action_type": "signal",
+    "signal_type": "alter_action"
 },
 {
     "action_id": "send_helicopter",
-    "action_type": "info",
-    "importance": 80.0
+    "action_type": "signal",
+    "signal_type": "alter_action"
 },
 {
     "action_id": "create_rescue_path",
-    "action_type": "rescue",
-    "importance": 90.0
+    "action_type": "signal",
+    "signal_type": "alter_action"
 },
 {
-    "action_id": "send_drone",
-    "action_type": "info",
-    "importance": 30.0
+    "action_id": "assign_drone_to_zone",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
+    "action_id": "send_drones_to_zone",
+    "action_type": "signal",
+    "signal_type": "alter_action"
 },
 {
     "action_id": "monitor_drone",
-    "action_type": "info",
-    "importance": 30.0
+    "action_type": "signal",
+    "signal_type": "alter_action"
 },
 {
     "action_id": "check_drone_report",
-    "action_type": "info",
-    "importance": 10.0
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+
+{
+    "action_id": "refuel_drone",
+    "action_type": "signal",
+    "signal_type": "alter_action"
 },
 {
-    "action_id": "classify_soldier",
-    "action_type": "info",
-    "importance": 20.0
+    "action_id": "reassign_drone_to_a_zone",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
+    "action_id": "accept_system_path",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
+    "action_id": "override_system_path",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
+    "action_id": "decline_system_path",
+    "action_type": "signal",
+    "signal_type": "alter_action"
+},
+{
+    "action_id": "instruct_soldier",
+    "action_type": "signal",
+    "signal_type": "alter_action"
 }
 ]
