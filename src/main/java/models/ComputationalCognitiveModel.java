@@ -274,7 +274,7 @@ public class ComputationalCognitiveModel {
                 if(p.getPrioritizing_node_type().equals(act)){
                     for(String mission : p.getPrioritizing_missions()){
                         for(String a :p.getTarget_actions()){
-                            List<Edge> outgoingEdges = g.V().has("mission_id", mission).outE("requires for completion").filter(inV().has("action_id", a)).toList();
+                            List<Edge> outgoingEdges = gtx.V().has("mission_id", mission).outE("requires for completion").filter(inV().has("action_id", a)).toList();
                             for (Edge edge : outgoingEdges) {
                                 double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
                                 gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
@@ -287,7 +287,7 @@ public class ComputationalCognitiveModel {
                 if(p.getDeprioritizing_node_type().equals(act)){
                     for(String mission : p.getDeprioritizing_missions()){
                         for(String a :p.getTarget_actions()){
-                            List<Edge> outgoingEdges = gtx.V().has("mission_id", mission).outE().has("action_id", a).toList();
+                            List<Edge> outgoingEdges = gtx.V().has("mission_id", mission).outE("requires for completion").filter(inV().has("action_id", a)).toList();
                             for (Edge edge : outgoingEdges) {
                                 double weight = Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
                                 gtx.E(edge.id()).property("gewicht", Double.toString(weight*p.getScalar_multiplier())).iterate();
@@ -315,12 +315,12 @@ public class ComputationalCognitiveModel {
             Vertex actionNode = actions.next();
 
             // Calculate cumulative in-weights based on all incoming edges
-            List<Edge> incomingEdges = g.V(actionNode).inE().toList();
+            List<Edge> incomingEdges = gtx.V(actionNode).inE().toList();
             for (Edge edge : incomingEdges)
                 cumulativeWeight += Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
 
             // Update all outgoing edges based on calculated in weights
-            List<Edge> outgoingEdges = g.V(actionNode).outE().toList();
+            List<Edge> outgoingEdges = gtx.V(actionNode).outE().toList();
             for (Edge edge : outgoingEdges) {
                 gtx.E(edge.id()).property("gewicht", Double.toString(cumulativeWeight)).iterate();
             }
@@ -334,12 +334,12 @@ public class ComputationalCognitiveModel {
             Vertex observationNode = observations.next();
 
             // Calculate cumulative in-weights based on all incoming edges
-            List<Edge> incomingEdges = g.V(observationNode).inE().toList();
+            List<Edge> incomingEdges = gtx.V(observationNode).inE().toList();
             for (Edge edge : incomingEdges)
                 cumulativeWeight += Double.parseDouble(gtx.E(edge.id()).valueMap().next().get("gewicht").toString().replaceAll("[a-zA-Z]", ""));
 
             // Update all outgoing edges based on calculated in weights
-            List<Edge> outgoingEdges = g.V(observationNode).outE().toList();
+            List<Edge> outgoingEdges = gtx.V(observationNode).outE().toList();
             for (Edge edge : outgoingEdges) {
                 gtx.E(edge.id()).property("gewicht", Double.toString(cumulativeWeight)).iterate();
             }
