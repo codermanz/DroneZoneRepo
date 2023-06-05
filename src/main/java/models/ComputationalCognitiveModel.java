@@ -142,6 +142,8 @@ public class ComputationalCognitiveModel {
         // Report new observations as a transaction
         Transaction tx = g.tx();
         GraphTraversalSource gtx = tx.begin();
+        // Maintain list of all types of observations for priotization framework
+        List<String> typesOfNewObservations = new ArrayList<>();
 
         // Decay all current observation edges
         List<Edge> all_reported_edges = gtx.E().hasLabel("reports").toList();
@@ -153,7 +155,6 @@ public class ComputationalCognitiveModel {
         // Add all new observations
         try {
             List<Vertex> vertices = new ArrayList<>();
-            List<String> typesOfNewObservations = new ArrayList<>();
             // Write all observations to the graph
             for (Observation obv : timeStep.getObservations()) {
                 // Create agents
@@ -190,8 +191,33 @@ public class ComputationalCognitiveModel {
             // Create mapping from observation to UI
             observationUIMapping.updateGraph(gtx, vertices);
 
+            tx.commit();
+            gtx.close();
+
+        }  catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        }
+
+        // Transaction for priotization framework updates
+        tx = g.tx();
+        gtx = tx.begin();
+        try {
             // Prioritizations/deprioritizations
             prioritizingFramework(typesOfNewObservations, gtx);
+
+            tx.commit();
+            gtx.close();
+
+        }  catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        }
+
+        // Transaction for update weights framework
+        tx = g.tx();
+        gtx = tx.begin();
+        try {
 
             // Update weights based on new observations
             updateWeights(gtx);
@@ -211,15 +237,30 @@ public class ComputationalCognitiveModel {
     public static void updateModel(UserAction actionTaken) {
         Transaction tx = g.tx();
         GraphTraversalSource gtx = tx.begin();
+
+        // Transaction for prioritization/deprioritizations
         try {
             // Prioritizations/Deprioritzations
             prioritizingFramework(actionTaken.getActions_taken(), gtx);
+
+            tx.commit();
+            gtx.close();
+        }  catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        }
+
+        // Transcation to update wieghts
+        tx = g.tx();
+        gtx = tx.begin();
+        try {
 
             // Update weights
             updateWeights(gtx);
 
             tx.commit();
             gtx.close();
+
         }  catch (Exception ex) {
             tx.rollback();
             ex.printStackTrace();
