@@ -5,6 +5,7 @@ import models.SimulatedUIStream;
 import utils.jsonObjectModels.TimeStep;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
@@ -14,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import utils.jsonObjectModels.UserAction;
+import java.util.List;
 
 public class MainClass {
 
@@ -25,7 +27,7 @@ public class MainClass {
         SimulatedUIStream uiStream = SimulatedUIStream.getInstance();
         Operator op = ccm.getOperatorModel();
         // Other vars
-        
+        ArrayList<String> screenshots = new ArrayList<String>();
         JSONArray js = (JSONArray) new JSONParser().parse(new FileReader("configs/operator.json"));
         
         Scanner scanner = new Scanner(System.in);
@@ -48,7 +50,7 @@ public class MainClass {
 
             // Update model with new observations
             ccm.updateModel(timeStep);
-            
+
             JSONObject json = (JSONObject) js.get(iteration);
             Long stress = (Long) json.get("stress");
             Long attentiveness = (Long) json.get("attentiveness");
@@ -58,12 +60,16 @@ public class MainClass {
             if(!op.getCurrentOperatorState().equals(old)) {
                 ccm.updateModel();
             }
-
+            String outnodes = GetTopXUINodes.getTopNodes(iteration+1);
+            screenshots.add(outnodes);
             input = scanner.nextLine();
             iteration++;
         }
 
         System.out.println("FINISHED SCRIPT - GOODBYE");
+        for (String nodes: screenshots){
+            System.out.println(nodes);
+        }
 
     }
 }
