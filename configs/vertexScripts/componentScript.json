@@ -1,0 +1,79 @@
+[{
+    "name": "Zone",
+    "ui_informationType": "geo_area",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Drone Status",
+    "ui_informationType": "percent_stats",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Minimap",
+    "ui_informationType": "coord",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Stage Manager",
+    "ui_informationType": "component_data",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Button",
+    "ui_informationType": "signal",
+    "signalType": "start_action",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Button",
+    "ui_informationType": "signal",
+    "signalType": "stop_action",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Button",
+    "ui_informationType": "signal",
+    "signalType": "alter_action",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Logbook",
+    "ui_informationType": "logs",
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Drag Drones",
+    "ui_informationType": "drone_profile",
+    "datalist": true,
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Task Stepper",
+    "ui_informationType": "task",
+    "datalist": true,
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Urgent Action",
+    "ui_informationType": "task",
+    "datalist": false,
+    "stress": "low",
+    "usefulness": 100.0
+},
+{
+    "name": "Dashboard",
+    "ui_informationType": "misc",
+    "stress": "low",
+    "usefulness": 100.0
+}
+]

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TimeStep",
+  "type": "object",
+  "properties": {
+    "timeStep": {
+      "type": "array",
+      "$items": {"$ref":  "#/$defs/timeStep"}
+    }
+  },
+
+  "$defs": {
+    "observation": {
+      "type": "object",
+      "required": ["agent_id", "obv_type", "attributes", "report"],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Agent identifier ID"
+        },
+        "obv_type": {
+          "type": "string",
+          "description": "Observation Type - must be consistent with observation type defined during set up"
+        },
+        "attributes": {
+          "type": "array",
+          "description": "Attributes for the given observation",
+          "$items": {"$ref":  "#/$defs/attribute"}
+        },
+        "edge": {
+          "type": "object",
+          "$item": {"$ref":  "#/$defs/edge"}
+        }
+      }
+    },
+    "timeStep": {
+      "type": "object",
+      "iteration": {
+        "required": true,
+        "type": "integer",
+        "description": "Time step iteration"
+      },
+      "description": {
+        "required": false,
+        "type": "string",
+        "description": "Optional time step details (proposed to put prosa from scenario here)"
+      },
+      "observations": {
+        "type": "array",
+        "$items" : {"$ref":  "#/$defs/observation"}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "edge_name": {
+        "type": "string",
+        "description": "name of edge (ex. reporting)",
+        "required": true
+      },
+      "attributes": {
+        "type": "array",
+        "description": "Attributes for this edge",
+        "$items": {"$ref":  "#/$defs/attribute"}
+      }
+    },
+    "attribute": {
+      "type": "object"
+    }
+  }
+}

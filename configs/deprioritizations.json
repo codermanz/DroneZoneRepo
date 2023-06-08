@@ -1,0 +1,86 @@
+[
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "confirm_soldier",
+    "deprioritizing_missions": ["rescue_soldier"],
+    "target_actions": ["confirm_soldier", "decline_soldier"],
+    "scalar_multiplier": 40.0
+  },
+  {
+  "deprioritization_reason": "action",
+  "deprioritizing_node_type": "decline_soldier",
+  "deprioritizing_missions": ["rescue_soldier"],
+  "target_actions": ["confirm_soldier", "decline_soldier"],
+  "scalar_multiplier": 40.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "decline_soldier",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["assign_drone_to_zone", "monitor_drone", "check_drone_report"],
+    "scalar_multiplier": 40.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "drop_medipack",
+    "deprioritizing_missions": ["rescue_soldier"],
+    "target_actions": ["drop_medipack"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "create_rescue_path",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["create_rescue_path"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "assign_drone_to_zone",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["assign_drone_to_zone"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "send_drones_to_zones",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["send_drones_to_zones"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "refuel_drone",
+    "deprioritizing_missions": ["maintain_hardware"],
+    "target_actions": ["refuel_drone"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "reassign_drone_to_a_zone",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["reassign_drone_to_a_zone"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "accept_system_path",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["accept_system_path", "override_system_path", "decline_system_path"],
+    "scalar_multiplier": 40.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "decline_system_path",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["accept_system_path", "override_system_path", "decline_system_path"],
+    "scalar_multiplier": 40.0
+  },
+  {
+    "deprioritization_reason": "action",
+    "deprioritizing_node_type": "override_system_path",
+    "deprioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["accept_system_path", "override_system_path", "decline_system_path"],
+    "scalar_multiplier": 40.0
+  }
+]

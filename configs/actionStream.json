@@ -1,0 +1,30 @@
+[
+  {
+    "actions_taken": ["decline_soldier"],
+    "timestamp": 3
+  },
+  {
+    "actions_taken": ["confirm_soldier"],
+    "timestamp": 9
+  },
+  {
+    "actions_taken": ["drop_medipack"],
+    "timestamp": 10
+  },
+  {
+    "actions_taken": ["create_rescue_path"],
+    "timestamp": 11
+  },
+  {
+    "actions_taken": ["instruct_soldier"],
+    "timestamp": 13
+  },
+  {
+    "actions_taken": ["accept_system_path"],
+    "timestamp": 17
+  },
+  {
+    "actions_taken": ["send_helicopter"],
+    "timestamp": 18
+  }
+]

@@ -9,7 +9,9 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-.idea/
-.DS_store
+.idea
+.DS_Store
 janusgraph-0.6.3/
+output/
+.vscode/
 droneZoneRepo.iml

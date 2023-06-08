@@ -1,0 +1,107 @@
+[
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "soldier_reported",
+    "prioritizing_missions": ["rescue_soldier"],
+    "target_actions": ["confirm_soldier", "decline_soldier", "monitor_drone", "check_drone_report"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "soldier_reported",
+    "prioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["assign_drone_to_zone", "reassign_drone_to_a_zone"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "enemy_spotted",
+    "prioritizing_missions": ["maintain_hardware"],
+    "target_actions": ["reassign_drone_to_a_zone", "send_drones_to_zones", "monitor_drone"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "drone_shot",
+    "prioritizing_missions": ["maintain_hardware"],
+    "target_actions": ["reassign_drone_to_a_zone", "check_drone_report"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "agent_idle",
+    "prioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["assign_drone_to_zone", "send_drones_to_zones", "reassign_drone_to_a_zone"],
+    "scalar_multiplier": 15.0
+  },
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "zone_scanned",
+    "prioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["assign_drone_to_zone", "send_drones_to_zones", "check_drone_report"],
+    "scalar_multiplier": 10.0
+  },
+  {
+    "prioritization_reason": "observation",
+    "prioritizing_node_type": "doms_suggestion",
+    "prioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["accept_system_path", "override_system_path", "decline_system_path"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "prioritization_reason": "action",
+    "prioritizing_node_type": "confirm_soldier",
+    "prioritizing_missions": ["rescue_soldier"],
+    "target_actions": ["drop_medipack", "send_helicopter", "create_rescue_path", "instruct_soldier"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "prioritization_reason": "action",
+    "prioritizing_node_type": "confirm_soldier",
+    "prioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["create_rescue_path"],
+    "scalar_multiplier": 20.0
+  },
+  {
+    "prioritization_reason": "action",
+    "prioritizing_node_type": "decline_soldier",
+    "prioritizing_missions": ["rescue_soldier"],
+    "target_actions": ["reassign_drone_to_a_zone", "check_drone_report", "monitor_drone"],
+    "scalar_multiplier": 30.0
+  },
+  {
+    "prioritization_reason": "action",
+    "prioritizing_node_type": "assign_drone_to_zone",
+    "prioritizing_missions": ["identify_rescue_path"],
+    "target_actions": ["send_drones_to_zones"],
+    "scalar_multiplier": 20.0
+  },
+  {
+  "prioritization_reason": "action",
+  "prioritizing_node_type": "reassign_drone_to_a_zone",
+  "prioritizing_missions": ["identify_rescue_path"],
+  "target_actions": ["send_drones_to_zones"],
+  "scalar_multiplier": 20.0
+  },
+  {
+    "prioritization_reason": "action",
+    "prioritizing_node_type": "accept_system_path",
+    "prioritizing_missions": ["rescue_soldier"],
+    "target_actions": ["send_helicopter"],
+    "scalar_multiplier": 30.0
+  },
+  {
+  "prioritization_reason": "action",
+  "prioritizing_node_type": "decline_system_path",
+  "prioritizing_missions": ["rescue_soldier", "identify_rescue_path"],
+  "target_actions": ["create_rescue_path"],
+  "scalar_multiplier": 15.0
+  },
+  {
+    "prioritization_reason": "action",
+    "prioritizing_node_type": "override_system_path",
+    "prioritizing_missions": ["rescue_soldier", "identify_rescue_path"],
+    "target_actions": ["create_rescue_path"],
+    "scalar_multiplier": 20.0
+  }
+]
