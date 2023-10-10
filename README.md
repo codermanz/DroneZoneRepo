@@ -1,7 +1,7 @@
 # DroneZoneRepo
 Computational Cognitive Model for SRI International Rapid HMI Project.
 
-For comprehensive report, please visit: [our whole report](https://docs.google.com/document/d/1rAn4TXmaScVNEqnr7aFDAPqqnrVPQ1nMZRinSNoRgnY/edit?usp=sharing)
+For comprehensive report, please visit: [our whole report](https://docs.google.com/document/d/1hJVlqz7jKSFbTLHm1JTiDnr4scG1HQtZIvH4RJv0lwI/edit#heading=h.7frfm35z7c11)
 
 Currently, you can create a graph on a remote janusgraph in memory instance and store that graph locally on your 
 computer in graphML format. You can open and visualize this file with Gremlin visualizer.
